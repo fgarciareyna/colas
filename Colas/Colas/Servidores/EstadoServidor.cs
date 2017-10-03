@@ -1,4 +1,4 @@
-﻿namespace Colas
+﻿namespace Colas.Servidores
 {
     public enum EstadoServidor
     {

@@ -44,9 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChiCuadrado.cs" />
-    <Compile Include="GestorEstadistico.cs" />
-    <Compile Include="Intervalo.cs" />
     <Compile Include="NumerosAleatorios\CongruencialMixto.cs" />
     <Compile Include="NumerosAleatorios\CongruencialMultiplicativo.cs" />
     <Compile Include="NumerosAleatorios\GeneradorDelSistema.cs" />

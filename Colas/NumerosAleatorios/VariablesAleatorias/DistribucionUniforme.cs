@@ -55,26 +55,5 @@ namespace NumerosAleatorios.VariablesAleatorias
 
             return variables;
         }
-
-        public List<double> FrecuenciasEsperadas(List<Intervalo> intervalos)
-        {
-            var n = intervalos.Count;
-
-            var frecuenciaEsperada = 1 / (double)n;
-
-            var frecuencias = new List<double>(n);
-
-            for (int i = 0; i < n; i++)
-            {
-                frecuencias.Add(frecuenciaEsperada);
-            }
-
-            return frecuencias;
-        }
-
-        public int CantidadParametros()
-        {
-            return 2;
-        }
     }
 }
