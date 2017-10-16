@@ -8,6 +8,11 @@ namespace Colas.Colas
     {
         private readonly List<Cliente> _clientes = new List<Cliente>();
 
+        public ColaFifo(string nombre)
+        {
+            Nombre = nombre;
+        }
+
         public bool Vacia()
         {
             return _clientes.Count == 0;
@@ -16,6 +21,7 @@ namespace Colas.Colas
         public void AgregarCliente(Cliente cliente)
         {
             _clientes.Add(cliente);
+            cliente.AgregarACola(Nombre);
         }
 
         public Cliente ProximoCliente()
@@ -27,5 +33,7 @@ namespace Colas.Colas
             _clientes.Remove(cliente);
             return cliente;
         }
+
+        public string Nombre { get; protected set; }
     }
 }

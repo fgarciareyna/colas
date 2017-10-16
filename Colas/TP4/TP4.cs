@@ -1,8 +1,14 @@
-﻿using System;
+﻿using Colas.Clientes;
+using NumerosAleatorios.VariablesAleatorias;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Colas.Colas;
+using Colas.Servidores;
 
 namespace TP4
 {
@@ -33,6 +39,75 @@ namespace TP4
         {
             if (FormularioValido())
             {
+                var recepcionA = double.Parse(txt_recepcion_a.Text);
+                var recepcionB = double.Parse(txt_recepcion_b.Text);
+                var distribucionRecepcion = new DistribucionUniforme(recepcionA, recepcionB);
+                var colaRecepcion = new ColaFifo("Recepción");
+                var recepcion = new Servidor(distribucionRecepcion, colaRecepcion, "Recepción");
+
+                var balanzaA = double.Parse(txt_balanza_a.Text);
+                var balanzaB = double.Parse(txt_balanza_b.Text);
+                var distribucionBalanza = new DistribucionUniforme(balanzaA, balanzaB);
+                var colaBalanza = new ColaFifo("Balanza");
+                var balanza = new Servidor(distribucionBalanza, colaBalanza, "Balanza");
+
+                var darsenasA = double.Parse(txt_darsenas_a.Text);
+                var darsenasB = double.Parse(txt_darsenas_b.Text);
+                var distribucionDarsenas = new DistribucionUniforme(darsenasA, darsenasB);
+                var colaDarsenas = new ColaFifo("Dársenas");
+                var mediaRecalibracion = double.Parse(txt_recalibracion_media.Text);
+                var varianzaRecalibracion = double.Parse(txt_recalibracion_varianza.Text);
+                var distribucionRecalibracion = new DistribucionNormal(mediaRecalibracion, varianzaRecalibracion);
+                var darsena1 = new Servidor(distribucionDarsenas, colaDarsenas, "Dársena 1", distribucionRecalibracion);
+                var darsena2 = new Servidor(distribucionDarsenas, colaDarsenas, "Dársena 2", distribucionRecalibracion);
+
+
+                IDistribucion distribucionLlegadas;
+                DateTime horaInicio;
+
+                if (rb_estrategia_a.Checked)
+                {
+                    var lambda = double.Parse(txt_llegadas_lambda.Text);
+                    distribucionLlegadas = new DistribucionExponencialNegativa(lambda);
+                    horaInicio = DateTime.Today.AddHours(12);
+                }
+                else
+                {
+                    distribucionLlegadas = new DistribucionUniforme(7, 8);
+                    horaInicio = DateTime.Today.AddHours(5);
+                }
+
+                var llegadas = new Llegada(distribucionLlegadas, horaInicio);
+
+                var dias = int.Parse(txt_dias.Text);
+                var desde = int.Parse(txt_desde.Text);
+                var hasta = int.Parse(txt_hasta.Text);
+
+                for (var dia = 1; dia <= dias; dia++)
+                {
+                    var eventos = new Dictionary<string, DateTime>
+                    {
+                        {"Llegada", llegadas.ProximaLLegada},
+                        {"Fin Recepción", recepcion.ProximoFinAtencion},
+                        {"Fin Balanza", balanza.ProximoFinAtencion},
+                        {"Fin Dársena 1", darsena1.ProximoFinAtencion},
+                        {"Fin Dársena 2", darsena2.ProximoFinAtencion}
+                    };
+
+                    var reloj = eventos.Min(ev => ev.Value);
+                    var evento = eventos.First(ev => ev.Value.Equals(reloj)).Key;
+
+                    switch (evento)
+                    {
+                            
+                    }
+
+                    if (dia <= desde && dia <= hasta)
+                    {
+                        
+                    }
+                }
+
                 HabilitarComparacion();
             }
         }
@@ -123,7 +198,7 @@ namespace TP4
             if (!ValidarNormal(txt_recalibracion_media, txt_recalibracion_varianza))
                 return false;
 
-            return ValidarDias(txt_desde, txt_hasta, txt_cantidad);
+            return ValidarCantidades(txt_desde, txt_hasta, txt_dias);
         }
 
         private bool ValidarExponencial(Control txtLambda)
@@ -229,25 +304,25 @@ namespace TP4
             return true;
         }
 
-        private bool ValidarDias(Control txtDesde, Control txtHasta, Control txtTotal)
+        private bool ValidarCantidades(Control txtDesde, Control txtHasta, Control txtDias)
         {
-            var mensaje = "El total de simulaciones debe ser un entero positivo";
+            var mensaje = "Los días deben ser un entero positivo";
 
-            if (string.IsNullOrEmpty(txtTotal.Text))
+            if (string.IsNullOrEmpty(txtDias.Text))
             {
-                MensajeError(mensaje, txtTotal);
+                MensajeError(mensaje, txtDias);
                 return false;
             }
 
-            int total;
+            int dias;
 
-            if (!int.TryParse(txtTotal.Text, out total) || total <= 0)
+            if (!int.TryParse(txtDias.Text, out dias) || dias <= 0)
             {
-                MensajeError(mensaje, txtTotal);
+                MensajeError(mensaje, txtDias);
                 return false;
             }
 
-            mensaje = "El día inicial debe ser un entero positivo";
+            mensaje = "El evento desde debe ser un entero positivo";
 
             if (string.IsNullOrEmpty(txtDesde.Text))
             {
@@ -263,15 +338,7 @@ namespace TP4
                 return false;
             }
 
-            mensaje = "El día inicial no puede ser superior al total de simulaciones";
-
-            if (desde > total)
-            {
-                MensajeError(mensaje, txtDesde);
-                return false;
-            }
-
-            mensaje = "El día final debe ser un entero positivo";
+            mensaje = "El evento hasta debe ser un entero positivo";
 
             if (string.IsNullOrEmpty(txtHasta.Text))
             {
@@ -287,15 +354,7 @@ namespace TP4
                 return false;
             }
 
-            mensaje = "El día final no puede ser superior al total de simulaciones";
-
-            if (hasta > total)
-            {
-                MensajeError(mensaje, txtHasta);
-                return false;
-            }
-
-            mensaje = "El día final no puede ser inferior al inicial";
+            mensaje = "El evento hasta no puede ser inferior al desde";
 
             if (hasta > desde)
             {

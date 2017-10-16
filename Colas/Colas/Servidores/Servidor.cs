@@ -7,11 +7,22 @@ namespace Colas.Servidores
 {
     public class Servidor
     {
-        public Servidor(IDistribucion distribucion, ICola cola)
+        public Servidor(IDistribucion atencion, ICola cola, string nombre)
         {
-            DistribucionAtencion = distribucion;
+            DistribucionAtencion = atencion;
             Cola = cola;
+            Nombre = nombre;
             Estado = "Libre";
+            CantidadAtendidos = 0;
+        }
+        public Servidor(IDistribucion atencion, ICola cola, string nombre, IDistribucion bloqueo)
+        {
+            DistribucionAtencion = atencion;
+            Cola = cola;
+            Nombre = nombre;
+            Estado = "Libre";
+            DistribucionBloqueo = bloqueo;
+            CantidadAtendidos = 0;
         }
 
         public bool EstaLibre()
@@ -38,7 +49,6 @@ namespace Colas.Servidores
             else
             {
                 Cola.AgregarCliente(cliente);
-                cliente.AgregarACola(Nombre);
             }
         }
 
@@ -46,7 +56,11 @@ namespace Colas.Servidores
         {
             var cliente = ClienteActual;
 
-            cliente?.FinalizarAtencion(ProximoFinAtencion);
+            if (cliente != null)
+            {
+                cliente.FinalizarAtencion(ProximoFinAtencion);
+                CantidadAtendidos++;
+            }
 
             if (Cola.Vacia())
             {
@@ -62,17 +76,26 @@ namespace Colas.Servidores
             return cliente;
         }
 
-        public void Bloqueo()
+        public void Bloqueo(DateTime hora)
         {
             Estado = "Bloqueado";
-            ActualizarFinAtencion(ProximoFinAtencion);
+            ActualizarFinBloqueo(hora);
+        }
+
+        public void ActualizarFinBloqueo(DateTime hora)
+        {
+            var demora = DistribucionBloqueo.Generar();
+
+            ProximoFinAtencion = hora.AddMinutes(demora);
         }
 
         public IDistribucion DistribucionAtencion { get; protected set; }
+        public IDistribucion DistribucionBloqueo { get; protected set; }
         public string Nombre { get; protected set; }
         public DateTime ProximoFinAtencion { get; protected set; }
         public string Estado { get; protected set; }
         public ICola Cola { get; protected set; }
         public Cliente ClienteActual { get; protected set; }
+        public int CantidadAtendidos { get; protected set; }
     }
 }

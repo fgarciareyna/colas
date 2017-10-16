@@ -79,6 +79,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Colas\Colas.csproj">
+      <Project>{68941C31-1EDA-40FF-A352-E393B31672D6}</Project>
+      <Name>Colas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NumerosAleatorios\NumerosAleatorios.csproj">
+      <Project>{F2F596E8-1733-4456-97DE-498A870DBB74}</Project>
+      <Name>NumerosAleatorios</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

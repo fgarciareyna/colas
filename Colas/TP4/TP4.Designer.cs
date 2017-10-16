@@ -65,11 +65,11 @@
             this.rb_estrategia_a = new System.Windows.Forms.RadioButton();
             this.lk_estrategia_b = new System.Windows.Forms.LinkLabel();
             this.lk_estrategia_a = new System.Windows.Forms.LinkLabel();
-            this.gb_dias = new System.Windows.Forms.GroupBox();
+            this.gb_cantidades = new System.Windows.Forms.GroupBox();
             this.txt_hasta = new System.Windows.Forms.TextBox();
             this.txt_desde = new System.Windows.Forms.TextBox();
-            this.txt_cantidad = new System.Windows.Forms.TextBox();
-            this.lbl_cantidad = new System.Windows.Forms.Label();
+            this.txt_dias = new System.Windows.Forms.TextBox();
+            this.lbl_dias = new System.Windows.Forms.Label();
             this.lbl_hasta = new System.Windows.Forms.Label();
             this.lbl_desde = new System.Windows.Forms.Label();
             this.btn_simular = new System.Windows.Forms.Button();
@@ -87,8 +87,10 @@
             this.cola_darsenas = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.estado_darsena_1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.proximo_fin_darsena_1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.atendidos_darsena_1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.estado_darsena_2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.proximo_fin_darsena_2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.atendidos_darsena_2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.total_atendidos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.permanencia = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gb_llegadas.SuspendLayout();
@@ -97,7 +99,7 @@
             this.gb_darsenas.SuspendLayout();
             this.gb_recalibracion.SuspendLayout();
             this.gb_estrategias.SuspendLayout();
-            this.gb_dias.SuspendLayout();
+            this.gb_cantidades.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_simulaciones)).BeginInit();
             this.SuspendLayout();
             // 
@@ -458,20 +460,20 @@
             this.lk_estrategia_a.Text = "Estrategia A";
             this.lk_estrategia_a.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lk_estrategia_a_LinkClicked);
             // 
-            // gb_dias
+            // gb_cantidades
             // 
-            this.gb_dias.Controls.Add(this.txt_hasta);
-            this.gb_dias.Controls.Add(this.txt_desde);
-            this.gb_dias.Controls.Add(this.txt_cantidad);
-            this.gb_dias.Controls.Add(this.lbl_cantidad);
-            this.gb_dias.Controls.Add(this.lbl_hasta);
-            this.gb_dias.Controls.Add(this.lbl_desde);
-            this.gb_dias.Location = new System.Drawing.Point(12, 12);
-            this.gb_dias.Name = "gb_dias";
-            this.gb_dias.Size = new System.Drawing.Size(179, 114);
-            this.gb_dias.TabIndex = 8;
-            this.gb_dias.TabStop = false;
-            this.gb_dias.Text = "Días:";
+            this.gb_cantidades.Controls.Add(this.txt_hasta);
+            this.gb_cantidades.Controls.Add(this.txt_desde);
+            this.gb_cantidades.Controls.Add(this.txt_dias);
+            this.gb_cantidades.Controls.Add(this.lbl_dias);
+            this.gb_cantidades.Controls.Add(this.lbl_hasta);
+            this.gb_cantidades.Controls.Add(this.lbl_desde);
+            this.gb_cantidades.Location = new System.Drawing.Point(12, 12);
+            this.gb_cantidades.Name = "gb_cantidades";
+            this.gb_cantidades.Size = new System.Drawing.Size(179, 114);
+            this.gb_cantidades.TabIndex = 8;
+            this.gb_cantidades.TabStop = false;
+            this.gb_cantidades.Text = "Cantidades:";
             // 
             // txt_hasta
             // 
@@ -479,7 +481,7 @@
             this.txt_hasta.Name = "txt_hasta";
             this.txt_hasta.Size = new System.Drawing.Size(37, 20);
             this.txt_hasta.TabIndex = 5;
-            this.txt_hasta.Text = "30";
+            this.txt_hasta.Text = "10";
             // 
             // txt_desde
             // 
@@ -491,20 +493,20 @@
             // 
             // txt_cantidad
             // 
-            this.txt_cantidad.Location = new System.Drawing.Point(124, 27);
-            this.txt_cantidad.Name = "txt_cantidad";
-            this.txt_cantidad.Size = new System.Drawing.Size(37, 20);
-            this.txt_cantidad.TabIndex = 3;
-            this.txt_cantidad.Text = "30";
+            this.txt_dias.Location = new System.Drawing.Point(124, 27);
+            this.txt_dias.Name = "txt_dias";
+            this.txt_dias.Size = new System.Drawing.Size(37, 20);
+            this.txt_dias.TabIndex = 3;
+            this.txt_dias.Text = "30";
             // 
-            // lbl_cantidad
+            // lbl_dias
             // 
-            this.lbl_cantidad.AutoSize = true;
-            this.lbl_cantidad.Location = new System.Drawing.Point(21, 30);
-            this.lbl_cantidad.Name = "lbl_cantidad";
-            this.lbl_cantidad.Size = new System.Drawing.Size(52, 13);
-            this.lbl_cantidad.TabIndex = 2;
-            this.lbl_cantidad.Text = "Cantidad:";
+            this.lbl_dias.AutoSize = true;
+            this.lbl_dias.Location = new System.Drawing.Point(21, 30);
+            this.lbl_dias.Name = "lbl_dias";
+            this.lbl_dias.Size = new System.Drawing.Size(33, 13);
+            this.lbl_dias.TabIndex = 2;
+            this.lbl_dias.Text = "Días:";
             // 
             // lbl_hasta
             // 
@@ -565,8 +567,10 @@
             this.cola_darsenas,
             this.estado_darsena_1,
             this.proximo_fin_darsena_1,
+            this.atendidos_darsena_1,
             this.estado_darsena_2,
             this.proximo_fin_darsena_2,
+            this.atendidos_darsena_2,
             this.total_atendidos,
             this.permanencia});
             this.dg_simulaciones.Location = new System.Drawing.Point(143, 132);
@@ -635,6 +639,11 @@
             this.proximo_fin_darsena_1.HeaderText = "Próximo Fin Dársena 1";
             this.proximo_fin_darsena_1.Name = "proximo_fin_darsena_1";
             // 
+            // atendidos_darsena_1
+            // 
+            this.atendidos_darsena_1.HeaderText = "Atendidos Dársena 1";
+            this.atendidos_darsena_1.Name = "atendidos_darsena_1";
+            // 
             // estado_darsena_2
             // 
             this.estado_darsena_2.HeaderText = "Estado Dársena 2";
@@ -644,6 +653,11 @@
             // 
             this.proximo_fin_darsena_2.HeaderText = "Próximo Fin Dársena 2";
             this.proximo_fin_darsena_2.Name = "proximo_fin_darsena_2";
+            // 
+            // atendidos_darsena_2
+            // 
+            this.atendidos_darsena_2.HeaderText = "Atendidos Dársena 2";
+            this.atendidos_darsena_2.Name = "atendidos_darsena_2";
             // 
             // total_atendidos
             // 
@@ -663,7 +677,7 @@
             this.Controls.Add(this.dg_simulaciones);
             this.Controls.Add(this.btn_comparar);
             this.Controls.Add(this.btn_simular);
-            this.Controls.Add(this.gb_dias);
+            this.Controls.Add(this.gb_cantidades);
             this.Controls.Add(this.gb_estrategias);
             this.Controls.Add(this.gb_recalibracion);
             this.Controls.Add(this.gb_darsenas);
@@ -684,8 +698,8 @@
             this.gb_recalibracion.PerformLayout();
             this.gb_estrategias.ResumeLayout(false);
             this.gb_estrategias.PerformLayout();
-            this.gb_dias.ResumeLayout(false);
-            this.gb_dias.PerformLayout();
+            this.gb_cantidades.ResumeLayout(false);
+            this.gb_cantidades.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_simulaciones)).EndInit();
             this.ResumeLayout(false);
 
@@ -730,11 +744,11 @@
         private System.Windows.Forms.TextBox txt_no_atendidos_a;
         private System.Windows.Forms.Label lbl_no_atendidos;
         private System.Windows.Forms.TextBox txt_atendidos_b;
-        private System.Windows.Forms.GroupBox gb_dias;
+        private System.Windows.Forms.GroupBox gb_cantidades;
         private System.Windows.Forms.TextBox txt_hasta;
         private System.Windows.Forms.TextBox txt_desde;
-        private System.Windows.Forms.TextBox txt_cantidad;
-        private System.Windows.Forms.Label lbl_cantidad;
+        private System.Windows.Forms.TextBox txt_dias;
+        private System.Windows.Forms.Label lbl_dias;
         private System.Windows.Forms.Label lbl_hasta;
         private System.Windows.Forms.Label lbl_desde;
         private System.Windows.Forms.Button btn_simular;
@@ -752,8 +766,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cola_darsenas;
         private System.Windows.Forms.DataGridViewTextBoxColumn estado_darsena_1;
         private System.Windows.Forms.DataGridViewTextBoxColumn proximo_fin_darsena_1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn atendidos_darsena_1;
         private System.Windows.Forms.DataGridViewTextBoxColumn estado_darsena_2;
         private System.Windows.Forms.DataGridViewTextBoxColumn proximo_fin_darsena_2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn atendidos_darsena_2;
         private System.Windows.Forms.DataGridViewTextBoxColumn total_atendidos;
         private System.Windows.Forms.DataGridViewTextBoxColumn permanencia;
     }
