@@ -99,6 +99,7 @@ namespace TP4
                     var atendidos = 0;
                     var noAtendidos = 0;
                     decimal permanencia = 0;
+                    var clientes = new List<Cliente>();
 
                     while (llegadas.Abierto()
                         || recepcion.EstaLibre()
@@ -118,6 +119,7 @@ namespace TP4
                             recepcion.LlegadaCliente(horaInicio, cliente);
                             if (simulacion < hasta)
                             {
+                                clientes.Add(cliente);
                                 dg_simulaciones.Columns.Add($"llegada_camion_{n}", $"Llegada Camión {n}");
                                 dg_simulaciones.Columns.Add($"estado_camion_{n}", $"Estado Camión {n}");
                                 dg_simulaciones.Columns.Add($"permanencia_camion_{n}", $"Permanencia Camión {n}");
@@ -147,6 +149,7 @@ namespace TP4
                                 recepcion.LlegadaCliente(reloj, cliente);
                                 if (simulacion < hasta)
                                 {
+                                    clientes.Add(cliente);
                                     dg_simulaciones.Columns.Add($"llegada_camion_{n}", $"Llegada Camión {n}");
                                     dg_simulaciones.Columns.Add($"estado_camion_{n}", $"Estado Camión {n}");
                                     dg_simulaciones.Columns.Add($"permanencia_camion_{n}", $"Permanencia Camión {n}");
@@ -197,7 +200,27 @@ namespace TP4
 
                         if (simulacion >= desde && simulacion <= hasta)
                         {
-                            //TODO: Agregar a tabla
+                            var row = dg_simulaciones.Rows.Add(
+                                reloj,
+                                evento,
+                                llegadas.ProximaLLegada,
+                                colaRecepcion.Cantidad(),
+                                recepcion.Estado,
+                                recepcion.ProximoFinAtencion,
+                                colaBalanza.Cantidad(),
+                                balanza.Estado,
+                                balanza.ProximoFinAtencion,
+                                colaDarsenas.Cantidad(),
+                                darsena1.Estado,
+                                darsena1.ProximoFinAtencion,
+                                darsena1.CantidadAtendidos,
+                                darsena2.Estado,
+                                darsena2.ProximoFinAtencion,
+                                darsena2.CantidadAtendidos,
+                                atendidos,
+                                noAtendidos,
+                                permanencia
+                                );
                         }
                     }
 
