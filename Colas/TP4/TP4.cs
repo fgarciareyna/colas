@@ -1,30 +1,109 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Globalization;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace TP4
 {
     public partial class Tp4 : Form
     {
+        private const int Decimales = 2;
+
         public Tp4()
         {
+            var culture = CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+
             InitializeComponent();
         }
 
-        private void rb_estrategia_a_CheckedChanged(object sender, System.EventArgs e)
+        private void rb_estrategia_a_CheckedChanged(object sender, EventArgs e)
         {
             btn_simular.Enabled = true;
         }
 
-        private void rb_estrategia_b_CheckedChanged(object sender, System.EventArgs e)
+        private void rb_estrategia_b_CheckedChanged(object sender, EventArgs e)
         {
             btn_simular.Enabled = true;
         }
 
-        private void btn_simular_Click(object sender, System.EventArgs e)
+        private void btn_simular_Click(object sender, EventArgs e)
         {
             if (FormularioValido())
             {
                 HabilitarComparacion();
             }
+        }
+
+        private void btn_comparar_Click(object sender, EventArgs e)
+        {
+            var sb = new StringBuilder();
+            double porcentaje;
+            string masMenos;
+
+            var atendidosA = double.Parse(txt_atendidos_a.Text);
+            var atendidosB = double.Parse(txt_atendidos_b.Text);
+
+            if (!atendidosA.Equals(atendidosB))
+            {
+                porcentaje = Math.Round(Math.Abs(atendidosB / atendidosA * 100), Decimales);
+                masMenos = atendidosB > atendidosA ? "Más" : "Menos";
+
+                sb.Append($"Con la estrategia B se atendieron un {porcentaje}% {masMenos} de camiones.");
+            }
+            else
+            {
+                sb.Append("Con ambas estrategias se atendieron la misma cantidad de camiones.");
+            }
+            sb.AppendLine();
+
+            var noAtendidosA = double.Parse(txt_no_atendidos_a.Text);
+            var noAtendidosB = double.Parse(txt_no_atendidos_b.Text);
+
+            if (!noAtendidosA.Equals(noAtendidosB))
+            {
+                porcentaje = Math.Round(Math.Abs(noAtendidosB / noAtendidosA * 100), Decimales);
+                masMenos = noAtendidosB > noAtendidosA ? "Más" : "Menos";
+
+                sb.Append($"Con la estrategia B quedaron afuera un {porcentaje}% {masMenos} de camiones.");
+            }
+            else
+            {
+                sb.Append("Con ambas estrategias quedaron afuera la misma cantidad de camiones.");
+            }
+            sb.AppendLine();
+
+            var permanenciaA = double.Parse(txt_permanencia_a.Text);
+            var permanenciaB = double.Parse(txt_permanencia_b.Text);
+
+            if (!permanenciaA.Equals(permanenciaB))
+            {
+                porcentaje = Math.Round(Math.Abs(permanenciaB / permanenciaA * 100), Decimales);
+                masMenos = permanenciaB > permanenciaA ? "Más" : "Menos";
+
+                sb.Append($"Con la estrategia B los camiones permanecieron un {porcentaje}% {masMenos} de tiempo.");
+            }
+            else
+            {
+                sb.Append("Con ambas estrategias los camiones permanecieron la misma cantidad de tiempo.");
+            }
+            sb.AppendLine();
+
+            if (atendidosA > atendidosB && noAtendidosA < noAtendidosB && permanenciaA < permanenciaB)
+            {
+                sb.AppendLine();
+                sb.Append("La estrategia más conveniente es la A");
+            }
+
+            if (atendidosA < atendidosB && noAtendidosA > noAtendidosB && permanenciaA > permanenciaB)
+            {
+                sb.AppendLine();
+                sb.Append("La estrategia más conveniente es la B");
+            }
+
+            MessageBox.Show(sb.ToString(), @"Resultado");
         }
 
         private bool FormularioValido()

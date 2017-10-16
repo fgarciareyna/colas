@@ -87,12 +87,9 @@
             this.cola_darsenas = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.estado_darsena_1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.proximo_fin_darsena_1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.contador_darsena_1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.estado_darsena_2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.proximo_fin_darsena_2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.contador_darsena_2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.total_atendidos = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.total_camiones = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.permanencia = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gb_llegadas.SuspendLayout();
             this.gb_recepcion.SuspendLayout();
@@ -286,7 +283,7 @@
             this.gb_recalibracion.TabStop = false;
             this.gb_recalibracion.Text = "Recalibración:";
             // 
-            // txt_recal_varianza
+            // txt_recalibracion_varianza
             // 
             this.txt_recalibracion_varianza.Location = new System.Drawing.Point(71, 48);
             this.txt_recalibracion_varianza.Name = "txt_recalibracion_varianza";
@@ -547,6 +544,7 @@
             this.btn_comparar.TabIndex = 10;
             this.btn_comparar.Text = "Comparar";
             this.btn_comparar.UseVisualStyleBackColor = true;
+            this.btn_comparar.Click += new System.EventHandler(this.btn_comparar_Click);
             // 
             // dg_simulaciones
             // 
@@ -567,12 +565,9 @@
             this.cola_darsenas,
             this.estado_darsena_1,
             this.proximo_fin_darsena_1,
-            this.contador_darsena_1,
             this.estado_darsena_2,
             this.proximo_fin_darsena_2,
-            this.contador_darsena_2,
             this.total_atendidos,
-            this.total_camiones,
             this.permanencia});
             this.dg_simulaciones.Location = new System.Drawing.Point(143, 132);
             this.dg_simulaciones.Name = "dg_simulaciones";
@@ -640,11 +635,6 @@
             this.proximo_fin_darsena_1.HeaderText = "Próximo Fin Dársena 1";
             this.proximo_fin_darsena_1.Name = "proximo_fin_darsena_1";
             // 
-            // contador_darsena_1
-            // 
-            this.contador_darsena_1.HeaderText = "Atendidos Dársena 1";
-            this.contador_darsena_1.Name = "contador_darsena_1";
-            // 
             // estado_darsena_2
             // 
             this.estado_darsena_2.HeaderText = "Estado Dársena 2";
@@ -655,20 +645,10 @@
             this.proximo_fin_darsena_2.HeaderText = "Próximo Fin Dársena 2";
             this.proximo_fin_darsena_2.Name = "proximo_fin_darsena_2";
             // 
-            // contador_darsena_2
-            // 
-            this.contador_darsena_2.HeaderText = "Atendidos Dársena 2";
-            this.contador_darsena_2.Name = "contador_darsena_2";
-            // 
             // total_atendidos
             // 
             this.total_atendidos.HeaderText = "Total Atendidos";
             this.total_atendidos.Name = "total_atendidos";
-            // 
-            // total_camiones
-            // 
-            this.total_camiones.HeaderText = "Total Camiones";
-            this.total_camiones.Name = "total_camiones";
             // 
             // permanencia
             // 
@@ -772,12 +752,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cola_darsenas;
         private System.Windows.Forms.DataGridViewTextBoxColumn estado_darsena_1;
         private System.Windows.Forms.DataGridViewTextBoxColumn proximo_fin_darsena_1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn contador_darsena_1;
         private System.Windows.Forms.DataGridViewTextBoxColumn estado_darsena_2;
         private System.Windows.Forms.DataGridViewTextBoxColumn proximo_fin_darsena_2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn contador_darsena_2;
         private System.Windows.Forms.DataGridViewTextBoxColumn total_atendidos;
-        private System.Windows.Forms.DataGridViewTextBoxColumn total_camiones;
         private System.Windows.Forms.DataGridViewTextBoxColumn permanencia;
     }
 }

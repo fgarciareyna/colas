@@ -4,14 +4,16 @@ namespace Colas.Clientes
 {
     public class Cliente
     {
-        private readonly DateTime _horaLlegada;
-
-        public Cliente(DateTime horaLlegada, string nombre)
+        public Cliente(string nombre)
         {
             Nombre = nombre;
-            _horaLlegada = horaLlegada;
             TiempoAtencion = 0;
+        }
+
+        public void Llegar(DateTime horaLlegada)
+        {
             Estado = "Llegando";
+            HoraLlegada = horaLlegada;
         }
         
         public void ComenzarAtencion(DateTime horaInicioAtencion, string servidor)
@@ -35,7 +37,7 @@ namespace Colas.Clientes
 
         public void Salir(DateTime horaSalida)
         {
-            var ingreso = DateTimeConverter.EnMinutos(_horaLlegada);
+            var ingreso = DateTimeConverter.EnMinutos(HoraLlegada);
             var salida = DateTimeConverter.EnMinutos(horaSalida);
 
             TiempoEnSistema = salida - ingreso;
@@ -49,6 +51,7 @@ namespace Colas.Clientes
         }
         
         public string Nombre { get; protected set; }
+        public DateTime HoraLlegada { get; protected set; }
         public DateTime HoraInicioAtencion { get; protected set; }
         public string Estado { get; protected set; }
         public decimal TiempoAtencion { get; protected set; }
