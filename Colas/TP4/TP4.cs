@@ -41,7 +41,7 @@ namespace TP4
             if (!ValidarUniforme(txt_darsenas_a, txt_darsenas_b))
                 return false;
 
-            if (!ValidarNormal(txt_recalibracion_media, txt_recal_desvest))
+            if (!ValidarNormal(txt_recalibracion_media, txt_recalibracion_varianza))
                 return false;
 
             return true;

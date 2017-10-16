@@ -47,8 +47,8 @@
             this.txt_darsenas_a = new System.Windows.Forms.TextBox();
             this.lbl_darsenas_a = new System.Windows.Forms.Label();
             this.gb_recalibracion = new System.Windows.Forms.GroupBox();
-            this.txt_recal_desvest = new System.Windows.Forms.TextBox();
-            this.txt_recalibracion_desvest = new System.Windows.Forms.Label();
+            this.txt_recalibracion_varianza = new System.Windows.Forms.TextBox();
+            this.lbl_recalibracion_varianza = new System.Windows.Forms.Label();
             this.txt_recalibracion_media = new System.Windows.Forms.TextBox();
             this.lbl_recalibracion_media = new System.Windows.Forms.Label();
             this.gb_estrategias = new System.Windows.Forms.GroupBox();
@@ -275,8 +275,8 @@
             // 
             // gb_recalibracion
             // 
-            this.gb_recalibracion.Controls.Add(this.txt_recal_desvest);
-            this.gb_recalibracion.Controls.Add(this.txt_recalibracion_desvest);
+            this.gb_recalibracion.Controls.Add(this.txt_recalibracion_varianza);
+            this.gb_recalibracion.Controls.Add(this.lbl_recalibracion_varianza);
             this.gb_recalibracion.Controls.Add(this.txt_recalibracion_media);
             this.gb_recalibracion.Controls.Add(this.lbl_recalibracion_media);
             this.gb_recalibracion.Location = new System.Drawing.Point(12, 468);
@@ -286,22 +286,22 @@
             this.gb_recalibracion.TabStop = false;
             this.gb_recalibracion.Text = "Recalibración:";
             // 
-            // txt_recal_desvest
+            // txt_recal_varianza
             // 
-            this.txt_recal_desvest.Location = new System.Drawing.Point(71, 48);
-            this.txt_recal_desvest.Name = "txt_recal_desvest";
-            this.txt_recal_desvest.Size = new System.Drawing.Size(37, 20);
-            this.txt_recal_desvest.TabIndex = 3;
-            this.txt_recal_desvest.Text = "7.5";
+            this.txt_recalibracion_varianza.Location = new System.Drawing.Point(71, 48);
+            this.txt_recalibracion_varianza.Name = "txt_recalibracion_varianza";
+            this.txt_recalibracion_varianza.Size = new System.Drawing.Size(37, 20);
+            this.txt_recalibracion_varianza.TabIndex = 3;
+            this.txt_recalibracion_varianza.Text = "7.5";
             // 
-            // txt_recalibracion_desvest
+            // lbl_recalibracion_varianza
             // 
-            this.txt_recalibracion_desvest.AutoSize = true;
-            this.txt_recalibracion_desvest.Location = new System.Drawing.Point(17, 51);
-            this.txt_recalibracion_desvest.Name = "txt_recalibracion_desvest";
-            this.txt_recalibracion_desvest.Size = new System.Drawing.Size(53, 13);
-            this.txt_recalibracion_desvest.TabIndex = 2;
-            this.txt_recalibracion_desvest.Text = "Desv Est:";
+            this.lbl_recalibracion_varianza.AutoSize = true;
+            this.lbl_recalibracion_varianza.Location = new System.Drawing.Point(17, 51);
+            this.lbl_recalibracion_varianza.Name = "lbl_recalibracion_varianza";
+            this.lbl_recalibracion_varianza.Size = new System.Drawing.Size(51, 13);
+            this.lbl_recalibracion_varianza.TabIndex = 2;
+            this.lbl_recalibracion_varianza.Text = "Varianza:";
             // 
             // txt_recalibracion_media
             // 
@@ -732,8 +732,8 @@
         private System.Windows.Forms.TextBox txt_darsenas_a;
         private System.Windows.Forms.Label lbl_darsenas_a;
         private System.Windows.Forms.GroupBox gb_recalibracion;
-        private System.Windows.Forms.TextBox txt_recal_desvest;
-        private System.Windows.Forms.Label txt_recalibracion_desvest;
+        private System.Windows.Forms.TextBox txt_recalibracion_varianza;
+        private System.Windows.Forms.Label lbl_recalibracion_varianza;
         private System.Windows.Forms.TextBox txt_recalibracion_media;
         private System.Windows.Forms.Label lbl_recalibracion_media;
         private System.Windows.Forms.GroupBox gb_estrategias;
