@@ -1,6 +1,6 @@
 ﻿namespace TP4
 {
-    partial class TP4
+    partial class Tp4
     {
         /// <summary>
         /// Required designer variable.
@@ -52,29 +52,48 @@
             this.txt_recalibracion_media = new System.Windows.Forms.TextBox();
             this.lbl_recalibracion_media = new System.Windows.Forms.Label();
             this.gb_estrategias = new System.Windows.Forms.GroupBox();
+            this.txt_permanencia_b = new System.Windows.Forms.TextBox();
+            this.txt_permanencia_a = new System.Windows.Forms.TextBox();
+            this.lbl_permanencia = new System.Windows.Forms.Label();
+            this.txt_no_atendidos_b = new System.Windows.Forms.TextBox();
+            this.txt_no_atendidos_a = new System.Windows.Forms.TextBox();
+            this.lbl_no_atendidos = new System.Windows.Forms.Label();
+            this.txt_atendidos_b = new System.Windows.Forms.TextBox();
             this.txt_atendidos_a = new System.Windows.Forms.TextBox();
             this.lbl_atendidos = new System.Windows.Forms.Label();
             this.rb_estrategia_b = new System.Windows.Forms.RadioButton();
             this.rb_estrategia_a = new System.Windows.Forms.RadioButton();
             this.lk_estrategia_b = new System.Windows.Forms.LinkLabel();
             this.lk_estrategia_a = new System.Windows.Forms.LinkLabel();
-            this.txt_atendidos_b = new System.Windows.Forms.TextBox();
-            this.txt_no_atendidos_b = new System.Windows.Forms.TextBox();
-            this.txt_no_atendidos_a = new System.Windows.Forms.TextBox();
-            this.lbl_no_atendidos = new System.Windows.Forms.Label();
-            this.txt_permanencia_b = new System.Windows.Forms.TextBox();
-            this.txt_permanencia_a = new System.Windows.Forms.TextBox();
-            this.lbl_permanencia = new System.Windows.Forms.Label();
             this.gb_dias = new System.Windows.Forms.GroupBox();
-            this.lbl_desde = new System.Windows.Forms.Label();
-            this.lbl_hasta = new System.Windows.Forms.Label();
-            this.lbl_cantidad = new System.Windows.Forms.Label();
-            this.txt_cantidad = new System.Windows.Forms.TextBox();
-            this.txt_desde = new System.Windows.Forms.TextBox();
             this.txt_hasta = new System.Windows.Forms.TextBox();
+            this.txt_desde = new System.Windows.Forms.TextBox();
+            this.txt_cantidad = new System.Windows.Forms.TextBox();
+            this.lbl_cantidad = new System.Windows.Forms.Label();
+            this.lbl_hasta = new System.Windows.Forms.Label();
+            this.lbl_desde = new System.Windows.Forms.Label();
             this.btn_simular = new System.Windows.Forms.Button();
             this.btn_comparar = new System.Windows.Forms.Button();
             this.dg_simulaciones = new System.Windows.Forms.DataGridView();
+            this.reloj = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.evento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.proxima_llegada = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cola_recepcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estado_recepcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.proximo_fin_recepcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cola_balanza = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estado_balanza = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.proximo_fin_balanza = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cola_darsenas = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estado_darsena_1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.proximo_fin_darsena_1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contador_darsena_1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estado_darsena_2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.proximo_fin_darsena_2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contador_darsena_2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.total_atendidos = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.total_camiones = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.permanencia = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gb_llegadas.SuspendLayout();
             this.gb_recepcion.SuspendLayout();
             this.gb_balanza.SuspendLayout();
@@ -89,12 +108,12 @@
             // 
             this.gb_llegadas.Controls.Add(this.txt_llegadas_lambda);
             this.gb_llegadas.Controls.Add(this.lbl_llegadas_lambda);
-            this.gb_llegadas.Location = new System.Drawing.Point(23, 12);
+            this.gb_llegadas.Location = new System.Drawing.Point(12, 132);
             this.gb_llegadas.Name = "gb_llegadas";
             this.gb_llegadas.Size = new System.Drawing.Size(125, 57);
             this.gb_llegadas.TabIndex = 0;
             this.gb_llegadas.TabStop = false;
-            this.gb_llegadas.Text = "Llegadas:";
+            this.gb_llegadas.Text = "Llegadas (A):";
             // 
             // txt_llegadas_lambda
             // 
@@ -136,7 +155,7 @@
             this.gb_recepcion.Controls.Add(this.lbl_recepcion_b);
             this.gb_recepcion.Controls.Add(this.txt_recepcion_a);
             this.gb_recepcion.Controls.Add(this.lbl_recepcion_a);
-            this.gb_recepcion.Location = new System.Drawing.Point(23, 75);
+            this.gb_recepcion.Location = new System.Drawing.Point(12, 195);
             this.gb_recepcion.Name = "gb_recepcion";
             this.gb_recepcion.Size = new System.Drawing.Size(125, 85);
             this.gb_recepcion.TabIndex = 2;
@@ -166,7 +185,7 @@
             this.gb_balanza.Controls.Add(this.lbl_balanza_b);
             this.gb_balanza.Controls.Add(this.txt_balanza_a);
             this.gb_balanza.Controls.Add(this.lbl_balanza_a);
-            this.gb_balanza.Location = new System.Drawing.Point(23, 166);
+            this.gb_balanza.Location = new System.Drawing.Point(12, 286);
             this.gb_balanza.Name = "gb_balanza";
             this.gb_balanza.Size = new System.Drawing.Size(125, 85);
             this.gb_balanza.TabIndex = 4;
@@ -213,7 +232,7 @@
             this.gb_darsenas.Controls.Add(this.lbl_darsenas_b);
             this.gb_darsenas.Controls.Add(this.txt_darsenas_a);
             this.gb_darsenas.Controls.Add(this.lbl_darsenas_a);
-            this.gb_darsenas.Location = new System.Drawing.Point(23, 257);
+            this.gb_darsenas.Location = new System.Drawing.Point(12, 377);
             this.gb_darsenas.Name = "gb_darsenas";
             this.gb_darsenas.Size = new System.Drawing.Size(125, 85);
             this.gb_darsenas.TabIndex = 5;
@@ -260,7 +279,7 @@
             this.gb_recalibracion.Controls.Add(this.txt_recalibracion_desvest);
             this.gb_recalibracion.Controls.Add(this.txt_recalibracion_media);
             this.gb_recalibracion.Controls.Add(this.lbl_recalibracion_media);
-            this.gb_recalibracion.Location = new System.Drawing.Point(23, 348);
+            this.gb_recalibracion.Location = new System.Drawing.Point(12, 468);
             this.gb_recalibracion.Name = "gb_recalibracion";
             this.gb_recalibracion.Size = new System.Drawing.Size(125, 85);
             this.gb_recalibracion.TabIndex = 6;
@@ -316,12 +335,70 @@
             this.gb_estrategias.Controls.Add(this.rb_estrategia_a);
             this.gb_estrategias.Controls.Add(this.lk_estrategia_b);
             this.gb_estrategias.Controls.Add(this.lk_estrategia_a);
-            this.gb_estrategias.Location = new System.Drawing.Point(154, 12);
+            this.gb_estrategias.Location = new System.Drawing.Point(197, 12);
             this.gb_estrategias.Name = "gb_estrategias";
             this.gb_estrategias.Size = new System.Drawing.Size(393, 114);
             this.gb_estrategias.TabIndex = 7;
             this.gb_estrategias.TabStop = false;
             this.gb_estrategias.Text = "Estrategias:";
+            // 
+            // txt_permanencia_b
+            // 
+            this.txt_permanencia_b.Enabled = false;
+            this.txt_permanencia_b.Location = new System.Drawing.Point(312, 77);
+            this.txt_permanencia_b.Name = "txt_permanencia_b";
+            this.txt_permanencia_b.Size = new System.Drawing.Size(64, 20);
+            this.txt_permanencia_b.TabIndex = 12;
+            // 
+            // txt_permanencia_a
+            // 
+            this.txt_permanencia_a.Enabled = false;
+            this.txt_permanencia_a.Location = new System.Drawing.Point(312, 52);
+            this.txt_permanencia_a.Name = "txt_permanencia_a";
+            this.txt_permanencia_a.Size = new System.Drawing.Size(64, 20);
+            this.txt_permanencia_a.TabIndex = 11;
+            // 
+            // lbl_permanencia
+            // 
+            this.lbl_permanencia.Location = new System.Drawing.Point(303, 16);
+            this.lbl_permanencia.Name = "lbl_permanencia";
+            this.lbl_permanencia.Size = new System.Drawing.Size(81, 33);
+            this.lbl_permanencia.TabIndex = 10;
+            this.lbl_permanencia.Text = "Permanencia promedio:";
+            this.lbl_permanencia.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txt_no_atendidos_b
+            // 
+            this.txt_no_atendidos_b.Enabled = false;
+            this.txt_no_atendidos_b.Location = new System.Drawing.Point(218, 77);
+            this.txt_no_atendidos_b.Name = "txt_no_atendidos_b";
+            this.txt_no_atendidos_b.Size = new System.Drawing.Size(64, 20);
+            this.txt_no_atendidos_b.TabIndex = 9;
+            // 
+            // txt_no_atendidos_a
+            // 
+            this.txt_no_atendidos_a.Enabled = false;
+            this.txt_no_atendidos_a.Location = new System.Drawing.Point(218, 52);
+            this.txt_no_atendidos_a.Name = "txt_no_atendidos_a";
+            this.txt_no_atendidos_a.Size = new System.Drawing.Size(64, 20);
+            this.txt_no_atendidos_a.TabIndex = 8;
+            // 
+            // lbl_no_atendidos
+            // 
+            this.lbl_no_atendidos.Location = new System.Drawing.Point(215, 16);
+            this.lbl_no_atendidos.Name = "lbl_no_atendidos";
+            this.lbl_no_atendidos.Size = new System.Drawing.Size(74, 33);
+            this.lbl_no_atendidos.TabIndex = 7;
+            this.lbl_no_atendidos.Text = "Camiones no atendidos:";
+            this.lbl_no_atendidos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txt_atendidos_b
+            // 
+            this.txt_atendidos_b.Enabled = false;
+            this.txt_atendidos_b.Location = new System.Drawing.Point(122, 77);
+            this.txt_atendidos_b.Name = "txt_atendidos_b";
+            this.txt_atendidos_b.Size = new System.Drawing.Size(64, 20);
+            this.txt_atendidos_b.TabIndex = 6;
             // 
             // txt_atendidos_a
             // 
@@ -349,6 +426,7 @@
             this.rb_estrategia_b.TabIndex = 3;
             this.rb_estrategia_b.TabStop = true;
             this.rb_estrategia_b.UseVisualStyleBackColor = true;
+            this.rb_estrategia_b.CheckedChanged += new System.EventHandler(this.rb_estrategia_b_CheckedChanged);
             // 
             // rb_estrategia_a
             // 
@@ -359,6 +437,7 @@
             this.rb_estrategia_a.TabIndex = 2;
             this.rb_estrategia_a.TabStop = true;
             this.rb_estrategia_a.UseVisualStyleBackColor = true;
+            this.rb_estrategia_a.CheckedChanged += new System.EventHandler(this.rb_estrategia_a_CheckedChanged);
             // 
             // lk_estrategia_b
             // 
@@ -369,6 +448,7 @@
             this.lk_estrategia_b.TabIndex = 1;
             this.lk_estrategia_b.TabStop = true;
             this.lk_estrategia_b.Text = "Estrategia B";
+            this.lk_estrategia_b.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lk_estrategia_b_LinkClicked);
             // 
             // lk_estrategia_a
             // 
@@ -379,64 +459,7 @@
             this.lk_estrategia_a.TabIndex = 0;
             this.lk_estrategia_a.TabStop = true;
             this.lk_estrategia_a.Text = "Estrategia A";
-            // 
-            // txt_atendidos_b
-            // 
-            this.txt_atendidos_b.Enabled = false;
-            this.txt_atendidos_b.Location = new System.Drawing.Point(122, 77);
-            this.txt_atendidos_b.Name = "txt_atendidos_b";
-            this.txt_atendidos_b.Size = new System.Drawing.Size(64, 20);
-            this.txt_atendidos_b.TabIndex = 6;
-            // 
-            // txt_no_atendidos_b
-            // 
-            this.txt_no_atendidos_b.Enabled = false;
-            this.txt_no_atendidos_b.Location = new System.Drawing.Point(218, 77);
-            this.txt_no_atendidos_b.Name = "txt_no_atendidos_b";
-            this.txt_no_atendidos_b.Size = new System.Drawing.Size(64, 20);
-            this.txt_no_atendidos_b.TabIndex = 9;
-            // 
-            // txt_no_atendidos_a
-            // 
-            this.txt_no_atendidos_a.Enabled = false;
-            this.txt_no_atendidos_a.Location = new System.Drawing.Point(218, 52);
-            this.txt_no_atendidos_a.Name = "txt_no_atendidos_a";
-            this.txt_no_atendidos_a.Size = new System.Drawing.Size(64, 20);
-            this.txt_no_atendidos_a.TabIndex = 8;
-            // 
-            // lbl_no_atendidos
-            // 
-            this.lbl_no_atendidos.Location = new System.Drawing.Point(215, 16);
-            this.lbl_no_atendidos.Name = "lbl_no_atendidos";
-            this.lbl_no_atendidos.Size = new System.Drawing.Size(74, 33);
-            this.lbl_no_atendidos.TabIndex = 7;
-            this.lbl_no_atendidos.Text = "Camiones no atendidos:";
-            this.lbl_no_atendidos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txt_permanencia_b
-            // 
-            this.txt_permanencia_b.Enabled = false;
-            this.txt_permanencia_b.Location = new System.Drawing.Point(312, 77);
-            this.txt_permanencia_b.Name = "txt_permanencia_b";
-            this.txt_permanencia_b.Size = new System.Drawing.Size(64, 20);
-            this.txt_permanencia_b.TabIndex = 12;
-            // 
-            // txt_permanencia_a
-            // 
-            this.txt_permanencia_a.Enabled = false;
-            this.txt_permanencia_a.Location = new System.Drawing.Point(312, 52);
-            this.txt_permanencia_a.Name = "txt_permanencia_a";
-            this.txt_permanencia_a.Size = new System.Drawing.Size(64, 20);
-            this.txt_permanencia_a.TabIndex = 11;
-            // 
-            // lbl_permanencia
-            // 
-            this.lbl_permanencia.Location = new System.Drawing.Point(303, 16);
-            this.lbl_permanencia.Name = "lbl_permanencia";
-            this.lbl_permanencia.Size = new System.Drawing.Size(81, 33);
-            this.lbl_permanencia.TabIndex = 10;
-            this.lbl_permanencia.Text = "Permanencia promedio:";
-            this.lbl_permanencia.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lk_estrategia_a.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lk_estrategia_a_LinkClicked);
             // 
             // gb_dias
             // 
@@ -446,30 +469,36 @@
             this.gb_dias.Controls.Add(this.lbl_cantidad);
             this.gb_dias.Controls.Add(this.lbl_hasta);
             this.gb_dias.Controls.Add(this.lbl_desde);
-            this.gb_dias.Location = new System.Drawing.Point(553, 12);
+            this.gb_dias.Location = new System.Drawing.Point(12, 12);
             this.gb_dias.Name = "gb_dias";
             this.gb_dias.Size = new System.Drawing.Size(179, 114);
             this.gb_dias.TabIndex = 8;
             this.gb_dias.TabStop = false;
             this.gb_dias.Text = "Días:";
             // 
-            // lbl_desde
+            // txt_hasta
             // 
-            this.lbl_desde.AutoSize = true;
-            this.lbl_desde.Location = new System.Drawing.Point(21, 55);
-            this.lbl_desde.Name = "lbl_desde";
-            this.lbl_desde.Size = new System.Drawing.Size(77, 13);
-            this.lbl_desde.TabIndex = 0;
-            this.lbl_desde.Text = "Mostrar desde:";
+            this.txt_hasta.Location = new System.Drawing.Point(124, 77);
+            this.txt_hasta.Name = "txt_hasta";
+            this.txt_hasta.Size = new System.Drawing.Size(37, 20);
+            this.txt_hasta.TabIndex = 5;
+            this.txt_hasta.Text = "30";
             // 
-            // lbl_hasta
+            // txt_desde
             // 
-            this.lbl_hasta.AutoSize = true;
-            this.lbl_hasta.Location = new System.Drawing.Point(21, 79);
-            this.lbl_hasta.Name = "lbl_hasta";
-            this.lbl_hasta.Size = new System.Drawing.Size(74, 13);
-            this.lbl_hasta.TabIndex = 1;
-            this.lbl_hasta.Text = "Mostrar hasta:";
+            this.txt_desde.Location = new System.Drawing.Point(124, 52);
+            this.txt_desde.Name = "txt_desde";
+            this.txt_desde.Size = new System.Drawing.Size(37, 20);
+            this.txt_desde.TabIndex = 4;
+            this.txt_desde.Text = "1";
+            // 
+            // txt_cantidad
+            // 
+            this.txt_cantidad.Location = new System.Drawing.Point(124, 27);
+            this.txt_cantidad.Name = "txt_cantidad";
+            this.txt_cantidad.Size = new System.Drawing.Size(37, 20);
+            this.txt_cantidad.TabIndex = 3;
+            this.txt_cantidad.Text = "30";
             // 
             // lbl_cantidad
             // 
@@ -480,44 +509,39 @@
             this.lbl_cantidad.TabIndex = 2;
             this.lbl_cantidad.Text = "Cantidad:";
             // 
-            // txt_cantidad
+            // lbl_hasta
             // 
-            this.txt_cantidad.Location = new System.Drawing.Point(124, 27);
-            this.txt_cantidad.Name = "txt_cantidad";
-            this.txt_cantidad.Size = new System.Drawing.Size(37, 20);
-            this.txt_cantidad.TabIndex = 3;
-            this.txt_cantidad.Text = "30";
+            this.lbl_hasta.AutoSize = true;
+            this.lbl_hasta.Location = new System.Drawing.Point(21, 79);
+            this.lbl_hasta.Name = "lbl_hasta";
+            this.lbl_hasta.Size = new System.Drawing.Size(74, 13);
+            this.lbl_hasta.TabIndex = 1;
+            this.lbl_hasta.Text = "Mostrar hasta:";
             // 
-            // txt_desde
+            // lbl_desde
             // 
-            this.txt_desde.Location = new System.Drawing.Point(124, 52);
-            this.txt_desde.Name = "txt_desde";
-            this.txt_desde.Size = new System.Drawing.Size(37, 20);
-            this.txt_desde.TabIndex = 4;
-            this.txt_desde.Text = "1";
-            // 
-            // txt_hasta
-            // 
-            this.txt_hasta.Location = new System.Drawing.Point(124, 77);
-            this.txt_hasta.Name = "txt_hasta";
-            this.txt_hasta.Size = new System.Drawing.Size(37, 20);
-            this.txt_hasta.TabIndex = 5;
-            this.txt_hasta.Text = "30";
+            this.lbl_desde.AutoSize = true;
+            this.lbl_desde.Location = new System.Drawing.Point(21, 55);
+            this.lbl_desde.Name = "lbl_desde";
+            this.lbl_desde.Size = new System.Drawing.Size(77, 13);
+            this.lbl_desde.TabIndex = 0;
+            this.lbl_desde.Text = "Mostrar desde:";
             // 
             // btn_simular
             // 
             this.btn_simular.Enabled = false;
-            this.btn_simular.Location = new System.Drawing.Point(760, 37);
+            this.btn_simular.Location = new System.Drawing.Point(596, 103);
             this.btn_simular.Name = "btn_simular";
             this.btn_simular.Size = new System.Drawing.Size(75, 23);
             this.btn_simular.TabIndex = 9;
             this.btn_simular.Text = "Simular";
             this.btn_simular.UseVisualStyleBackColor = true;
+            this.btn_simular.Click += new System.EventHandler(this.btn_simular_Click);
             // 
             // btn_comparar
             // 
             this.btn_comparar.Enabled = false;
-            this.btn_comparar.Location = new System.Drawing.Point(760, 75);
+            this.btn_comparar.Location = new System.Drawing.Point(677, 103);
             this.btn_comparar.Name = "btn_comparar";
             this.btn_comparar.Size = new System.Drawing.Size(75, 23);
             this.btn_comparar.TabIndex = 10;
@@ -526,17 +550,136 @@
             // 
             // dg_simulaciones
             // 
+            this.dg_simulaciones.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dg_simulaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg_simulaciones.Location = new System.Drawing.Point(154, 132);
+            this.dg_simulaciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.reloj,
+            this.evento,
+            this.proxima_llegada,
+            this.cola_recepcion,
+            this.estado_recepcion,
+            this.proximo_fin_recepcion,
+            this.cola_balanza,
+            this.estado_balanza,
+            this.proximo_fin_balanza,
+            this.cola_darsenas,
+            this.estado_darsena_1,
+            this.proximo_fin_darsena_1,
+            this.contador_darsena_1,
+            this.estado_darsena_2,
+            this.proximo_fin_darsena_2,
+            this.contador_darsena_2,
+            this.total_atendidos,
+            this.total_camiones,
+            this.permanencia});
+            this.dg_simulaciones.Location = new System.Drawing.Point(143, 132);
             this.dg_simulaciones.Name = "dg_simulaciones";
-            this.dg_simulaciones.Size = new System.Drawing.Size(681, 301);
+            this.dg_simulaciones.RowHeadersVisible = false;
+            this.dg_simulaciones.Size = new System.Drawing.Size(609, 421);
             this.dg_simulaciones.TabIndex = 11;
             // 
-            // TP4
+            // reloj
+            // 
+            this.reloj.HeaderText = "Reloj";
+            this.reloj.Name = "reloj";
+            // 
+            // evento
+            // 
+            this.evento.HeaderText = "Evento";
+            this.evento.Name = "evento";
+            // 
+            // proxima_llegada
+            // 
+            this.proxima_llegada.HeaderText = "Próxima Llegada";
+            this.proxima_llegada.Name = "proxima_llegada";
+            // 
+            // cola_recepcion
+            // 
+            this.cola_recepcion.HeaderText = "Cola Recepción";
+            this.cola_recepcion.Name = "cola_recepcion";
+            // 
+            // estado_recepcion
+            // 
+            this.estado_recepcion.HeaderText = "Estado Recepción";
+            this.estado_recepcion.Name = "estado_recepcion";
+            // 
+            // proximo_fin_recepcion
+            // 
+            this.proximo_fin_recepcion.HeaderText = "Próximo Fin Recepción";
+            this.proximo_fin_recepcion.Name = "proximo_fin_recepcion";
+            // 
+            // cola_balanza
+            // 
+            this.cola_balanza.HeaderText = "Cola Balanza";
+            this.cola_balanza.Name = "cola_balanza";
+            // 
+            // estado_balanza
+            // 
+            this.estado_balanza.HeaderText = "Estado Balanza";
+            this.estado_balanza.Name = "estado_balanza";
+            // 
+            // proximo_fin_balanza
+            // 
+            this.proximo_fin_balanza.HeaderText = "Próximo Fin Balanza";
+            this.proximo_fin_balanza.Name = "proximo_fin_balanza";
+            // 
+            // cola_darsenas
+            // 
+            this.cola_darsenas.HeaderText = "Cola Dársenas";
+            this.cola_darsenas.Name = "cola_darsenas";
+            // 
+            // estado_darsena_1
+            // 
+            this.estado_darsena_1.HeaderText = "Estado Dársena 1";
+            this.estado_darsena_1.Name = "estado_darsena_1";
+            // 
+            // proximo_fin_darsena_1
+            // 
+            this.proximo_fin_darsena_1.HeaderText = "Próximo Fin Dársena 1";
+            this.proximo_fin_darsena_1.Name = "proximo_fin_darsena_1";
+            // 
+            // contador_darsena_1
+            // 
+            this.contador_darsena_1.HeaderText = "Atendidos Dársena 1";
+            this.contador_darsena_1.Name = "contador_darsena_1";
+            // 
+            // estado_darsena_2
+            // 
+            this.estado_darsena_2.HeaderText = "Estado Dársena 2";
+            this.estado_darsena_2.Name = "estado_darsena_2";
+            // 
+            // proximo_fin_darsena_2
+            // 
+            this.proximo_fin_darsena_2.HeaderText = "Próximo Fin Dársena 2";
+            this.proximo_fin_darsena_2.Name = "proximo_fin_darsena_2";
+            // 
+            // contador_darsena_2
+            // 
+            this.contador_darsena_2.HeaderText = "Atendidos Dársena 2";
+            this.contador_darsena_2.Name = "contador_darsena_2";
+            // 
+            // total_atendidos
+            // 
+            this.total_atendidos.HeaderText = "Total Atendidos";
+            this.total_atendidos.Name = "total_atendidos";
+            // 
+            // total_camiones
+            // 
+            this.total_camiones.HeaderText = "Total Camiones";
+            this.total_camiones.Name = "total_camiones";
+            // 
+            // permanencia
+            // 
+            this.permanencia.HeaderText = "Permanencia Promedio";
+            this.permanencia.Name = "permanencia";
+            // 
+            // Tp4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(865, 456);
+            this.ClientSize = new System.Drawing.Size(772, 575);
             this.Controls.Add(this.dg_simulaciones);
             this.Controls.Add(this.btn_comparar);
             this.Controls.Add(this.btn_simular);
@@ -547,7 +690,7 @@
             this.Controls.Add(this.gb_balanza);
             this.Controls.Add(this.gb_recepcion);
             this.Controls.Add(this.gb_llegadas);
-            this.Name = "TP4";
+            this.Name = "Tp4";
             this.Text = "Colas";
             this.gb_llegadas.ResumeLayout(false);
             this.gb_llegadas.PerformLayout();
@@ -617,6 +760,25 @@
         private System.Windows.Forms.Button btn_simular;
         private System.Windows.Forms.Button btn_comparar;
         private System.Windows.Forms.DataGridView dg_simulaciones;
+        private System.Windows.Forms.DataGridViewTextBoxColumn reloj;
+        private System.Windows.Forms.DataGridViewTextBoxColumn evento;
+        private System.Windows.Forms.DataGridViewTextBoxColumn proxima_llegada;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cola_recepcion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn estado_recepcion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn proximo_fin_recepcion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cola_balanza;
+        private System.Windows.Forms.DataGridViewTextBoxColumn estado_balanza;
+        private System.Windows.Forms.DataGridViewTextBoxColumn proximo_fin_balanza;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cola_darsenas;
+        private System.Windows.Forms.DataGridViewTextBoxColumn estado_darsena_1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn proximo_fin_darsena_1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn contador_darsena_1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn estado_darsena_2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn proximo_fin_darsena_2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn contador_darsena_2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn total_atendidos;
+        private System.Windows.Forms.DataGridViewTextBoxColumn total_camiones;
+        private System.Windows.Forms.DataGridViewTextBoxColumn permanencia;
     }
 }
 

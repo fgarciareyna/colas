@@ -16,7 +16,7 @@ namespace TP4
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TP4());
+            Application.Run(new Tp4());
         }
     }
 }
