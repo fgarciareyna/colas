@@ -44,7 +44,6 @@
     <Compile Include="Clientes\Llegada.cs" />
     <Compile Include="Colas\ColaFifo.cs" />
     <Compile Include="DateTimeConverter.cs" />
-    <Compile Include="Servidores\EstadoServidor.cs" />
     <Compile Include="Colas\ICola.cs" />
     <Compile Include="Servidores\Servidor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

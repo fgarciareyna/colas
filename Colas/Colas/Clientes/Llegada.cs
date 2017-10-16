@@ -15,11 +15,11 @@ namespace Colas.Clientes
             ProximaLLegada = proximaLlegada;
         }
 
-        public void ActualizarLlegada(DateTime hora)
+        public void ActualizarLlegada()
         {
             var demora = DistribucionLlegadas.Generar();
 
-            ProximaLLegada = hora.AddMinutes(demora);
+            ProximaLLegada = ProximaLLegada.AddMinutes(demora);
         }
 
         public IDistribucion DistribucionLlegadas { get; protected set; }

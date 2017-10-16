@@ -6,28 +6,41 @@ namespace Colas.Clientes
     {
         private readonly DateTime _horaLlegada;
 
-        public Cliente(DateTime horaLlegada)
+        public Cliente(DateTime horaLlegada, string nombre)
         {
+            Nombre = nombre;
             _horaLlegada = horaLlegada;
             TiempoAtencion = 0;
-            TiempoEnSistema = 0;
+            Estado = "Llegando";
         }
         
-        public void ComenzarAtencion(DateTime horaInicioAtencion)
+        public void ComenzarAtencion(DateTime horaInicioAtencion, string servidor)
         {
             HoraInicioAtencion = horaInicioAtencion;
+            Estado = $"En {servidor}";
         }
 
         public void FinalizarAtencion(DateTime horaFinAtencion)
         {
-            TiempoAtencion += (horaFinAtencion.Hour * 3600 + horaFinAtencion.Minute * 60 + horaFinAtencion.Second) -
-                             (HoraInicioAtencion.Hour * 3600 + HoraInicioAtencion.Minute * 60 + HoraInicioAtencion.Second);
+            var inicioAtencion = DateTimeConverter.EnMinutos(HoraInicioAtencion);
+            var finAtencion = DateTimeConverter.EnMinutos(horaFinAtencion);
+
+            TiempoAtencion += -finAtencion - inicioAtencion;
+        }
+
+        public void AgregarACola(string nombre)
+        {
+            Estado = $"En cola de {nombre}";
         }
 
         public void Salir(DateTime horaSalida)
         {
-            TiempoEnSistema = (horaSalida.Hour * 3600 + horaSalida.Minute * 60 + horaSalida.Second) -
-                             (_horaLlegada.Hour * 3600 + _horaLlegada.Minute * 60 + _horaLlegada.Second);
+            var ingreso = DateTimeConverter.EnMinutos(_horaLlegada);
+            var salida = DateTimeConverter.EnMinutos(horaSalida);
+
+            TiempoEnSistema = salida - ingreso;
+
+            Estado = "Saliendo";
         }
 
         public decimal TiempoEspera()
@@ -35,7 +48,9 @@ namespace Colas.Clientes
             return TiempoEnSistema - TiempoAtencion;
         }
         
+        public string Nombre { get; protected set; }
         public DateTime HoraInicioAtencion { get; protected set; }
+        public string Estado { get; protected set; }
         public decimal TiempoAtencion { get; protected set; }
         public decimal TiempoEnSistema { get; protected set; }
     }

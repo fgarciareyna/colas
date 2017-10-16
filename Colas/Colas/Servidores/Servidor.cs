@@ -7,33 +7,16 @@ namespace Colas.Servidores
 {
     public class Servidor
     {
-        private DateTime _horaInicio;
-
-        public Servidor(IDistribucion distribucion, DateTime horaInicio)
+        public Servidor(IDistribucion distribucion, ICola cola)
         {
             DistribucionAtencion = distribucion;
-            Estado = EstadoServidor.Libre;
-            Cola = new ColaFifo();
-            _horaInicio = horaInicio;
-            TiempoAtencion = 0;
+            Cola = cola;
+            Estado = "Libre";
         }
 
-        public Servidor(IDistribucion distribucion, ICola cola, DateTime horaInicio)
+        public bool EstaLibre()
         {
-            DistribucionAtencion = distribucion;
-            Estado = EstadoServidor.Libre;
-            Cola = cola;
-            _horaInicio = horaInicio;
-            TiempoAtencion = 0;
-        }
-
-        public Servidor(IDistribucion distribucion, EstadoServidor estado, ICola cola, DateTime horaInicio)
-        {
-            DistribucionAtencion = distribucion;
-            Estado = estado;
-            Cola = cola;
-            _horaInicio = horaInicio;
-            TiempoAtencion = 0;
+            return Estado.Equals("Libre");
         }
 
         private void ActualizarFinAtencion(DateTime hora)
@@ -45,56 +28,51 @@ namespace Colas.Servidores
 
         public void LlegadaCliente(DateTime hora, Cliente cliente)
         {
-            switch (Estado)
+            if (EstaLibre())
             {
-                case EstadoServidor.Libre:
-                    Estado = EstadoServidor.Ocupado;
-                    cliente.ComenzarAtencion(hora);
-                    ClienteActual = cliente;
-                    ActualizarFinAtencion(hora);
-                    break;
-                case EstadoServidor.Ocupado:
-                    Cola.AgregarCliente(cliente);
-                    break;
-                default:
-                    throw new NotSupportedException("Estado inválido");
+                ClienteActual = cliente;
+                Estado = $"Atendiendo a {cliente.Nombre}";
+                cliente.ComenzarAtencion(hora, Nombre);
+                ActualizarFinAtencion(hora);
+            }
+            else
+            {
+                Cola.AgregarCliente(cliente);
+                cliente.AgregarACola(Nombre);
             }
         }
 
         public Cliente FinAtencion()
         {
             var cliente = ClienteActual;
-            var inicioAtencion = cliente.HoraInicioAtencion;
 
-            TiempoAtencion = (ProximoFinAtencion.Hour * 3600 + ProximoFinAtencion.Minute * 60 + ProximoFinAtencion.Second) -
-                             (inicioAtencion.Hour * 3600 + inicioAtencion.Minute * 60 + inicioAtencion.Second);
+            cliente?.FinalizarAtencion(ProximoFinAtencion);
 
             if (Cola.Vacia())
             {
-                Estado = EstadoServidor.Libre;
+                Estado = "Libre";
                 ClienteActual = null;
             }
-
             else
             {
                 ClienteActual = Cola.ProximoCliente();
                 ActualizarFinAtencion(ProximoFinAtencion);
             }
+            
             return cliente;
         }
 
-        public void Cerrar(DateTime horaCierre)
+        public void Bloqueo()
         {
-            TiempoOcioso = (horaCierre.Hour * 3600 + horaCierre.Minute * 60 + horaCierre.Second) -
-                             (_horaInicio.Hour * 3600 + _horaInicio.Minute * 60 + _horaInicio.Second);
+            Estado = "Bloqueado";
+            ActualizarFinAtencion(ProximoFinAtencion);
         }
 
         public IDistribucion DistribucionAtencion { get; protected set; }
+        public string Nombre { get; protected set; }
         public DateTime ProximoFinAtencion { get; protected set; }
-        public EstadoServidor Estado { get; protected set; }
+        public string Estado { get; protected set; }
         public ICola Cola { get; protected set; }
         public Cliente ClienteActual { get; protected set; }
-        public int TiempoAtencion { get; protected set; }
-        public int TiempoOcioso { get; protected set; }
     }
 }
