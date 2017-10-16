@@ -221,6 +221,15 @@ namespace TP4
                                 noAtendidos,
                                 permanencia
                                 );
+
+                            foreach (var cli in clientes)
+                            {
+                                var num = cli.Nombre.Split(' ')[1];
+
+                                dg_simulaciones.Rows[row].Cells[$"llegada_camion_{num}"].Value = cli.HoraLlegada;
+                                dg_simulaciones.Rows[row].Cells[$"estado_camion_{num}"].Value = cli.Estado;
+                                dg_simulaciones.Rows[row].Cells[$"permanencia_camion_{num}"].Value = cli.TiempoEnSistema;
+                            }
                         }
                     }
 
