@@ -44,7 +44,7 @@ namespace TP4
             if (!ValidarNormal(txt_recalibracion_media, txt_recalibracion_varianza))
                 return false;
 
-            return true;
+            return ValidarDias(txt_desde, txt_hasta, txt_cantidad);
         }
 
         private bool ValidarExponencial(Control txtLambda)
@@ -56,14 +56,13 @@ namespace TP4
                 MensajeError(mensaje, txtLambda);
                 return false;
             }
-            else
+
+            double lambda;
+
+            if (!double.TryParse(txtLambda.Text, out lambda) || lambda <= 0)
             {
-                double lambda;
-                if (!double.TryParse(txtLambda.Text, out lambda) || lambda <= 0)
-                {
-                    MensajeError(mensaje, txtLambda);
-                    return false;
-                }
+                MensajeError(mensaje, txtLambda);
+                return false;
             }
 
             return true;
@@ -78,40 +77,37 @@ namespace TP4
                 MensajeError(mensaje, txtA);
                 return false;
             }
-            else
+
+            double a;
+
+            if (!double.TryParse(txtA.Text, out a))
             {
-                double a;
-                if (!double.TryParse(txtA.Text, out a))
-                {
-                    MensajeError(mensaje, txtA);
-                    return false;
-                }
+                MensajeError(mensaje, txtA);
+                return false;
+            }
 
-                mensaje = "Ingrese un número válido para B";
+            mensaje = "Ingrese un número válido para B";
 
-                if (string.IsNullOrEmpty(txtB.Text))
-                {
-                    MensajeError(mensaje, txtB);
-                    return false;
-                }
-                else
-                {
-                    double b;
-                    if (!double.TryParse(txtB.Text, out b))
-                    {
-                        MensajeError(mensaje, txtB);
-                        return false;
-                    }
-                    else
-                    {
-                        mensaje = "B debe ser mayor que A";
-                        if (b <= a)
-                        {
-                            MensajeError(mensaje, txtB);
-                            return false;
-                        }
-                    }
-                }
+            if (string.IsNullOrEmpty(txtB.Text))
+            {
+                MensajeError(mensaje, txtB);
+                return false;
+            }
+
+            double b;
+
+            if (!double.TryParse(txtB.Text, out b))
+            {
+                MensajeError(mensaje, txtB);
+                return false;
+            }
+
+            mensaje = "B debe ser mayor que A";
+
+            if (b <= a)
+            {
+                MensajeError(mensaje, txtB);
+                return false;
             }
 
             return true;
@@ -126,41 +122,106 @@ namespace TP4
                 MensajeError(mensaje, txtMedia);
                 return false;
             }
-            else
+
+            double media;
+
+            if (!double.TryParse(txtMedia.Text, out media))
             {
-                double media;
-                if (!double.TryParse(txtMedia.Text, out media))
-                {
-                    MensajeError(mensaje, txtMedia);
-                    return false;
-                }
+                MensajeError(mensaje, txtMedia);
+                return false;
             }
 
-            mensaje = "Ingrese un número válido para la desviación estándar";
+            mensaje = "La varianza debe ser un número positivo";
 
             if (string.IsNullOrEmpty(txtVarianza.Text))
             {
                 MensajeError(mensaje, txtVarianza);
                 return false;
             }
-            else
-            {
-                double varianza;
-                if (!double.TryParse(txtVarianza.Text, out varianza))
-                {
-                    MensajeError(mensaje, txtVarianza);
-                    return false;
-                }
-                else
-                {
-                    mensaje = "La varianza no puede ser negativa";
 
-                    if (varianza < 0)
-                    {
-                        MensajeError(mensaje, txtVarianza);
-                        return false;
-                    }
-                }
+            double varianza;
+
+            if (!double.TryParse(txtVarianza.Text, out varianza) || varianza < 0)
+            {
+                MensajeError(mensaje, txtVarianza);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ValidarDias(Control txtDesde, Control txtHasta, Control txtTotal)
+        {
+            var mensaje = "El total de simulaciones debe ser un entero positivo";
+
+            if (string.IsNullOrEmpty(txtTotal.Text))
+            {
+                MensajeError(mensaje, txtTotal);
+                return false;
+            }
+
+            int total;
+
+            if (!int.TryParse(txtTotal.Text, out total) || total <= 0)
+            {
+                MensajeError(mensaje, txtTotal);
+                return false;
+            }
+
+            mensaje = "El día inicial debe ser un entero positivo";
+
+            if (string.IsNullOrEmpty(txtDesde.Text))
+            {
+                MensajeError(mensaje, txtDesde);
+                return false;
+            }
+
+            int desde;
+
+            if (!int.TryParse(txtDesde.Text, out desde) || desde <= 0)
+            {
+                MensajeError(mensaje, txtDesde);
+                return false;
+            }
+
+            mensaje = "El día inicial no puede ser superior al total de simulaciones";
+
+            if (desde > total)
+            {
+                MensajeError(mensaje, txtDesde);
+                return false;
+            }
+
+            mensaje = "El día final debe ser un entero positivo";
+
+            if (string.IsNullOrEmpty(txtHasta.Text))
+            {
+                MensajeError(mensaje, txtHasta);
+                return false;
+            }
+
+            int hasta;
+
+            if (!int.TryParse(txtHasta.Text, out hasta) || hasta <= 0)
+            {
+                MensajeError(mensaje, txtHasta);
+                return false;
+            }
+
+            mensaje = "El día final no puede ser superior al total de simulaciones";
+
+            if (hasta > total)
+            {
+                MensajeError(mensaje, txtHasta);
+                return false;
+            }
+
+            mensaje = "El día final no puede ser inferior al inicial";
+
+            if (hasta > desde)
+            {
+                MensajeError(mensaje, txtHasta);
+                return false;
             }
 
             return true;
