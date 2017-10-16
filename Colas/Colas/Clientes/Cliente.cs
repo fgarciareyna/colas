@@ -8,15 +8,6 @@ namespace Colas.Clientes
 
         public Cliente(DateTime horaLlegada)
         {
-            Prioridad = 0;
-            _horaLlegada = horaLlegada;
-            TiempoAtencion = 0;
-            TiempoEnSistema = 0;
-        }
-
-        public Cliente(int prioridad, DateTime horaLlegada)
-        {
-            Prioridad = prioridad;
             _horaLlegada = horaLlegada;
             TiempoAtencion = 0;
             TiempoEnSistema = 0;
@@ -39,14 +30,13 @@ namespace Colas.Clientes
                              (_horaLlegada.Hour * 3600 + _horaLlegada.Minute * 60 + _horaLlegada.Second);
         }
 
-        public int TiempoEspera()
+        public decimal TiempoEspera()
         {
             return TiempoEnSistema - TiempoAtencion;
         }
-
-        public int Prioridad { get;  protected set; }
+        
         public DateTime HoraInicioAtencion { get; protected set; }
-        public int TiempoAtencion { get; protected set; }
-        public int TiempoEnSistema { get; protected set; }
+        public decimal TiempoAtencion { get; protected set; }
+        public decimal TiempoEnSistema { get; protected set; }
     }
 }
