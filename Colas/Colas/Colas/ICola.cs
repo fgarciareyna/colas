@@ -7,5 +7,7 @@ namespace Colas.Colas
         bool Vacia();
         void AgregarCliente(Cliente cliente);
         Cliente ProximoCliente();
+        int Cantidad();
+        void Vaciar();
     }
 }

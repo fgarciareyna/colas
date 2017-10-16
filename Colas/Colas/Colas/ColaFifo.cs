@@ -34,6 +34,16 @@ namespace Colas.Colas
             return cliente;
         }
 
+        public int Cantidad()
+        {
+            return _clientes.Count;
+        }
+
+        public void Vaciar()
+        {
+            _clientes.Clear();
+        }
+
         public string Nombre { get; protected set; }
     }
 }

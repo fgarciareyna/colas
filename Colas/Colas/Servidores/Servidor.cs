@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Colas.Clientes;
 using Colas.Colas;
 using NumerosAleatorios.VariablesAleatorias;
@@ -30,6 +31,11 @@ namespace Colas.Servidores
             return Estado.Equals("Libre");
         }
 
+        public bool EstaBloqueado()
+        {
+            return Estado.Equals("Bloqueado");
+        }
+
         private void ActualizarFinAtencion(DateTime hora)
         {
             var demora = DistribucionAtencion.Generar();
@@ -52,34 +58,39 @@ namespace Colas.Servidores
             }
         }
 
+        [SuppressMessage("ReSharper", "PossibleInvalidOperationException")]
         public Cliente FinAtencion()
         {
             var cliente = ClienteActual;
 
             if (cliente != null)
             {
-                cliente.FinalizarAtencion(ProximoFinAtencion);
+                cliente.FinalizarAtencion(ProximoFinAtencion.Value);
                 CantidadAtendidos++;
             }
 
-            if (Cola.Vacia())
+            if (DistribucionBloqueo != null && CantidadAtendidos % 15 == 0 && !EstaBloqueado())
             {
-                Estado = "Libre";
+                Estado = "Bloqueado";
                 ClienteActual = null;
+                ActualizarFinBloqueo(ProximoFinAtencion.Value);
             }
             else
             {
-                ClienteActual = Cola.ProximoCliente();
-                ActualizarFinAtencion(ProximoFinAtencion);
+                if (Cola.Vacia())
+                {
+                    Estado = "Libre";
+                    ClienteActual = null;
+                    ProximoFinAtencion = null;
+                }
+                else
+                {
+                    ClienteActual = Cola.ProximoCliente();
+                    ActualizarFinAtencion(ProximoFinAtencion.Value);
+                }
             }
             
             return cliente;
-        }
-
-        public void Bloqueo(DateTime hora)
-        {
-            Estado = "Bloqueado";
-            ActualizarFinBloqueo(hora);
         }
 
         public void ActualizarFinBloqueo(DateTime hora)
@@ -92,7 +103,7 @@ namespace Colas.Servidores
         public IDistribucion DistribucionAtencion { get; protected set; }
         public IDistribucion DistribucionBloqueo { get; protected set; }
         public string Nombre { get; protected set; }
-        public DateTime ProximoFinAtencion { get; protected set; }
+        public DateTime? ProximoFinAtencion { get; protected set; }
         public string Estado { get; protected set; }
         public ICola Cola { get; protected set; }
         public Cliente ClienteActual { get; protected set; }

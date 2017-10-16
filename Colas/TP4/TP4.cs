@@ -2,11 +2,13 @@
 using NumerosAleatorios.VariablesAleatorias;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Colas;
 using Colas.Colas;
 using Colas.Servidores;
 
@@ -35,6 +37,7 @@ namespace TP4
             btn_simular.Enabled = true;
         }
 
+        [SuppressMessage("ReSharper", "LocalVariableHidesMember")]
         private void btn_simular_Click(object sender, EventArgs e)
         {
             if (FormularioValido())
@@ -83,29 +86,126 @@ namespace TP4
                 var desde = int.Parse(txt_desde.Text);
                 var hasta = int.Parse(txt_hasta.Text);
 
+                decimal promedioAtendidos = 0;
+                decimal promedioNoAtendidos = 0;
+                decimal promedioPermanencia = 0;
+
+                var afuera = 0;
+
                 for (var dia = 1; dia <= dias; dia++)
                 {
-                    var eventos = new Dictionary<string, DateTime>
-                    {
-                        {"Llegada", llegadas.ProximaLLegada},
-                        {"Fin Recepción", recepcion.ProximoFinAtencion},
-                        {"Fin Balanza", balanza.ProximoFinAtencion},
-                        {"Fin Dársena 1", darsena1.ProximoFinAtencion},
-                        {"Fin Dársena 2", darsena2.ProximoFinAtencion}
-                    };
+                    var simulacion = 0;
+                    var n = 0;
+                    var atendidos = 0;
+                    var noAtendidos = 0;
+                    decimal permanencia = 0;
 
-                    var reloj = eventos.Min(ev => ev.Value);
-                    var evento = eventos.First(ev => ev.Value.Equals(reloj)).Key;
-
-                    switch (evento)
+                    while (llegadas.Abierto()
+                        || recepcion.EstaLibre()
+                        || balanza.EstaLibre()
+                        || darsena1.EstaLibre()
+                        || darsena2.EstaLibre())
                     {
-                            
-                    }
+                        simulacion++;
 
-                    if (dia <= desde && dia <= hasta)
-                    {
+                        Cliente cliente;
+
+                        while (afuera > n)
+                        {
+                            n++;
+                            cliente = new Cliente($"Camión {n}");
+                            cliente.Llegar(horaInicio);
+                            recepcion.LlegadaCliente(horaInicio, cliente);
+                            if (simulacion < hasta)
+                            {
+                                dg_simulaciones.Columns.Add($"llegada_camion_{n}", $"Llegada Camión {n}");
+                                dg_simulaciones.Columns.Add($"estado_camion_{n}", $"Estado Camión {n}");
+                                dg_simulaciones.Columns.Add($"permanencia_camion_{n}", $"Permanencia Camión {n}");
+                            }
+                        }
+
+                        var eventos = new List<Evento>
+                        {
+                            new Evento("Llegada", llegadas.ProximaLLegada),
+                            new Evento("Fin Recepción", recepcion.ProximoFinAtencion),
+                            new Evento("Fin Balanza", balanza.ProximoFinAtencion),
+                            new Evento("Fin Dársena 1", darsena1.ProximoFinAtencion),
+                            new Evento("Fin Dársena 2", darsena2.ProximoFinAtencion),
+                            new Evento("Cierre", DateTime.Today.AddHours(18))
+                        };
+
+                        // ReSharper disable once PossibleInvalidOperationException
+                        var reloj = eventos.Where(ev => ev.Hora.HasValue).Min(ev => ev.Hora).Value;
+                        var evento = eventos.First(ev => ev.Hora.Equals(reloj)).Nombre;
                         
+                        switch (evento)
+                        {
+                            case "Llegada":
+                                n++;
+                                cliente = new Cliente($"Camión {n}");
+                                cliente.Llegar(reloj);
+                                recepcion.LlegadaCliente(reloj, cliente);
+                                if (simulacion < hasta)
+                                {
+                                    dg_simulaciones.Columns.Add($"llegada_camion_{n}", $"Llegada Camión {n}");
+                                    dg_simulaciones.Columns.Add($"estado_camion_{n}", $"Estado Camión {n}");
+                                    dg_simulaciones.Columns.Add($"permanencia_camion_{n}", $"Permanencia Camión {n}");
+                                }
+                                break;
+
+                            case "Fin Recepción":
+                                cliente = recepcion.FinAtencion();
+                                balanza.LlegadaCliente(reloj, cliente);
+                                break;
+
+                            case "Fin Balanza":
+                                cliente = balanza.FinAtencion();
+                                if(darsena1.EstaLibre())
+                                    darsena1.LlegadaCliente(reloj, cliente);
+                                else
+                                    darsena2.LlegadaCliente(reloj, cliente);
+                                break;
+
+                            case "Fin Dársena 1":
+                                cliente = darsena1.FinAtencion();
+                                if (cliente != null)
+                                {
+                                    cliente.Salir(reloj);
+                                    permanencia = (permanencia * atendidos + cliente.TiempoEnSistema) / (atendidos + 1);
+                                    atendidos++;
+                                }
+                                break;
+
+                            case "Fin Dársena 2":
+                                cliente = darsena2.FinAtencion();
+                                if (cliente != null)
+                                {
+                                    cliente.Salir(reloj);
+                                    permanencia = (permanencia * atendidos + cliente.TiempoEnSistema) / (atendidos + 1);
+                                    atendidos++;
+                                }
+                                break;
+
+                            case "Cierre":
+                                llegadas.Cerrar();
+                                afuera = colaRecepcion.Cantidad();
+                                promedioNoAtendidos = (promedioNoAtendidos * (dia - 1) + afuera) / dia;
+                                colaRecepcion.Vaciar();
+                                noAtendidos = afuera;
+                                break;
+                        }
+
+                        if (simulacion >= desde && simulacion <= hasta)
+                        {
+                            //TODO: Agregar a tabla
+                        }
                     }
+
+                    var permanenciaAnterior = promedioPermanencia * promedioAtendidos * (dia - 1);
+
+                    promedioAtendidos = (promedioAtendidos * (dia - 1) + atendidos) / dia;
+                    promedioNoAtendidos = (promedioNoAtendidos * (dia - 1) + noAtendidos) / dia;
+                    promedioPermanencia = (permanenciaAnterior + permanencia) / (promedioAtendidos * dia);
                 }
 
                 HabilitarComparacion();

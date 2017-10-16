@@ -92,6 +92,7 @@
             this.proximo_fin_darsena_2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.atendidos_darsena_2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.total_atendidos = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sin_atender = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.permanencia = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gb_llegadas.SuspendLayout();
             this.gb_recepcion.SuspendLayout();
@@ -491,7 +492,7 @@
             this.txt_desde.TabIndex = 4;
             this.txt_desde.Text = "1";
             // 
-            // txt_cantidad
+            // txt_dias
             // 
             this.txt_dias.Location = new System.Drawing.Point(124, 27);
             this.txt_dias.Name = "txt_dias";
@@ -572,6 +573,7 @@
             this.proximo_fin_darsena_2,
             this.atendidos_darsena_2,
             this.total_atendidos,
+            this.sin_atender,
             this.permanencia});
             this.dg_simulaciones.Location = new System.Drawing.Point(143, 132);
             this.dg_simulaciones.Name = "dg_simulaciones";
@@ -663,6 +665,11 @@
             // 
             this.total_atendidos.HeaderText = "Total Atendidos";
             this.total_atendidos.Name = "total_atendidos";
+            // 
+            // sin_atender
+            // 
+            this.sin_atender.HeaderText = "Total Sin Atender";
+            this.sin_atender.Name = "sin_atender";
             // 
             // permanencia
             // 
@@ -771,6 +778,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn proximo_fin_darsena_2;
         private System.Windows.Forms.DataGridViewTextBoxColumn atendidos_darsena_2;
         private System.Windows.Forms.DataGridViewTextBoxColumn total_atendidos;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sin_atender;
         private System.Windows.Forms.DataGridViewTextBoxColumn permanencia;
     }
 }
