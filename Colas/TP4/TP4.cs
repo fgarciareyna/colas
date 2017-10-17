@@ -100,12 +100,13 @@ namespace TP4
                     var noAtendidos = 0;
                     decimal permanencia = 0;
                     var clientes = new List<Cliente>();
+                    var cierre = new Evento("Cierre", DateTime.Today.AddHours(18));
 
                     while (llegadas.Abierto()
-                        || recepcion.EstaLibre()
-                        || balanza.EstaLibre()
-                        || darsena1.EstaLibre()
-                        || darsena2.EstaLibre())
+                        || !recepcion.EstaLibre()
+                        || !balanza.EstaLibre()
+                        || !darsena1.EstaLibre()
+                        || !darsena2.EstaLibre())
                     {
                         simulacion++;
 
@@ -117,7 +118,7 @@ namespace TP4
                             cliente = new Cliente($"Camión {n}");
                             cliente.Llegar(horaInicio);
                             recepcion.LlegadaCliente(horaInicio, cliente);
-                            if (simulacion < hasta)
+                            if (dia == 1 && simulacion < hasta)
                             {
                                 clientes.Add(cliente);
                                 dg_simulaciones.Columns.Add($"llegada_camion_{n}", $"Llegada Camión {n}");
@@ -128,12 +129,12 @@ namespace TP4
 
                         var eventos = new List<Evento>
                         {
-                            new Evento("Llegada", llegadas.ProximaLLegada),
+                            new Evento("Llegada", llegadas.ProximaLlegada),
                             new Evento("Fin Recepción", recepcion.ProximoFinAtencion),
                             new Evento("Fin Balanza", balanza.ProximoFinAtencion),
                             new Evento("Fin Dársena 1", darsena1.ProximoFinAtencion),
                             new Evento("Fin Dársena 2", darsena2.ProximoFinAtencion),
-                            new Evento("Cierre", DateTime.Today.AddHours(18))
+                            cierre
                         };
 
                         // ReSharper disable once PossibleInvalidOperationException
@@ -147,7 +148,8 @@ namespace TP4
                                 cliente = new Cliente($"Camión {n}");
                                 cliente.Llegar(reloj);
                                 recepcion.LlegadaCliente(reloj, cliente);
-                                if (simulacion < hasta)
+                                llegadas.ActualizarLlegada();
+                                if (dia == 1 && simulacion < hasta)
                                 {
                                     clientes.Add(cliente);
                                     dg_simulaciones.Columns.Add($"llegada_camion_{n}", $"Llegada Camión {n}");
@@ -195,40 +197,41 @@ namespace TP4
                                 promedioNoAtendidos = (promedioNoAtendidos * (dia - 1) + afuera) / dia;
                                 colaRecepcion.Vaciar();
                                 noAtendidos = afuera;
+                                cierre = new Evento("Cierre", null);
                                 break;
                         }
 
-                        if (simulacion >= desde && simulacion <= hasta)
+                        if (dia == 1 && simulacion >= desde && simulacion <= hasta)
                         {
                             var row = dg_simulaciones.Rows.Add(
-                                reloj,
+                                reloj.ToString("HH:mm:ss"),
                                 evento,
-                                llegadas.ProximaLLegada,
+                                llegadas.ProximaLlegada?.ToString("HH:mm:ss"),
                                 colaRecepcion.Cantidad(),
                                 recepcion.Estado,
-                                recepcion.ProximoFinAtencion,
+                                recepcion.ProximoFinAtencion?.ToString("HH:mm:ss"),
                                 colaBalanza.Cantidad(),
                                 balanza.Estado,
-                                balanza.ProximoFinAtencion,
+                                balanza.ProximoFinAtencion?.ToString("HH:mm:ss"),
                                 colaDarsenas.Cantidad(),
                                 darsena1.Estado,
-                                darsena1.ProximoFinAtencion,
+                                darsena1.ProximoFinAtencion?.ToString("HH:mm:ss"),
                                 darsena1.CantidadAtendidos,
                                 darsena2.Estado,
-                                darsena2.ProximoFinAtencion,
+                                darsena2.ProximoFinAtencion?.ToString("HH:mm:ss"),
                                 darsena2.CantidadAtendidos,
                                 atendidos,
                                 noAtendidos,
-                                permanencia
+                                Math.Round(permanencia, Decimales)
                                 );
 
                             foreach (var cli in clientes)
                             {
                                 var num = cli.Nombre.Split(' ')[1];
 
-                                dg_simulaciones.Rows[row].Cells[$"llegada_camion_{num}"].Value = cli.HoraLlegada;
+                                dg_simulaciones.Rows[row].Cells[$"llegada_camion_{num}"].Value = cli.HoraLlegada.ToString("HH:mm:ss");
                                 dg_simulaciones.Rows[row].Cells[$"estado_camion_{num}"].Value = cli.Estado;
-                                dg_simulaciones.Rows[row].Cells[$"permanencia_camion_{num}"].Value = cli.TiempoEnSistema;
+                                dg_simulaciones.Rows[row].Cells[$"permanencia_camion_{num}"].Value = Math.Round(cli.TiempoEnSistema, Decimales);
                             }
                         }
                     }
@@ -238,6 +241,13 @@ namespace TP4
                     promedioAtendidos = (promedioAtendidos * (dia - 1) + atendidos) / dia;
                     promedioNoAtendidos = (promedioNoAtendidos * (dia - 1) + noAtendidos) / dia;
                     promedioPermanencia = (permanenciaAnterior + permanencia) / (promedioAtendidos * dia);
+                }
+
+                if (rb_estrategia_a.Checked)
+                {
+                    txt_atendidos_a.Text = Math.Round(promedioAtendidos, Decimales).ToString();
+                    txt_no_atendidos_a.Text = Math.Round(promedioNoAtendidos, Decimales).ToString();
+                    txt_permanencia_a.Text = Math.Round(promedioPermanencia, Decimales).ToString();
                 }
 
                 HabilitarComparacion();
@@ -488,7 +498,7 @@ namespace TP4
 
             mensaje = "El evento hasta no puede ser inferior al desde";
 
-            if (hasta > desde)
+            if (hasta < desde)
             {
                 MensajeError(mensaje, txtHasta);
                 return false;

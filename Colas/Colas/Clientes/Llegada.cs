@@ -8,30 +8,30 @@ namespace Colas.Clientes
         public Llegada(IDistribucion distribucion, DateTime proximaLlegada)
         {
             DistribucionLlegadas = distribucion;
-            ProximaLLegada = proximaLlegada;
+            ProximaLlegada = proximaLlegada;
         }
 
         public void ActualizarLlegada()
         {
-            if (!ProximaLLegada.HasValue)
+            if (!ProximaLlegada.HasValue)
                 return;
 
             var demora = DistribucionLlegadas.Generar();
 
-            ProximaLLegada = ProximaLLegada.Value.AddMinutes(demora);
+            ProximaLlegada = ProximaLlegada.Value.AddMinutes(demora);
         }
 
         public void Cerrar()
         {
-            ProximaLLegada = null;
+            ProximaLlegada = null;
         }
 
         public bool Abierto()
         {
-            return ProximaLLegada.HasValue;
+            return ProximaLlegada.HasValue;
         }
 
         public IDistribucion DistribucionLlegadas { get; protected set; }
-        public DateTime? ProximaLLegada { get; protected set; }
+        public DateTime? ProximaLlegada { get; protected set; }
     }
 }

@@ -121,7 +121,7 @@
             this.txt_llegadas_lambda.Name = "txt_llegadas_lambda";
             this.txt_llegadas_lambda.Size = new System.Drawing.Size(37, 20);
             this.txt_llegadas_lambda.TabIndex = 1;
-            this.txt_llegadas_lambda.Text = "7.5";
+            this.txt_llegadas_lambda.Text = "0.067";
             // 
             // lbl_llegadas_lambda
             // 
