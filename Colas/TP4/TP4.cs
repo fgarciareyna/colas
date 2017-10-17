@@ -42,6 +42,13 @@ namespace TP4
         {
             if (FormularioValido())
             {
+                dg_simulaciones.Rows.Clear();
+                var cols = dg_simulaciones.Columns.Count;
+                for (var c = cols-1; c >= 19; c--)
+                {
+                    dg_simulaciones.Columns.RemoveAt(c);
+                }
+
                 var recepcionA = double.Parse(txt_recepcion_a.Text);
                 var recepcionB = double.Parse(txt_recepcion_b.Text);
                 var distribucionRecepcion = new DistribucionUniforme(recepcionA, recepcionB);
@@ -80,8 +87,6 @@ namespace TP4
                     horaInicio = DateTime.Today.AddHours(5);
                 }
 
-                var llegadas = new Llegada(distribucionLlegadas, horaInicio);
-
                 var dias = int.Parse(txt_dias.Text);
                 var desde = int.Parse(txt_desde.Text);
                 var hasta = int.Parse(txt_hasta.Text);
@@ -100,6 +105,7 @@ namespace TP4
                     var noAtendidos = 0;
                     decimal permanencia = 0;
                     var clientes = new List<Cliente>();
+                    var llegadas = new Llegada(distribucionLlegadas, horaInicio);
                     var cierre = new Evento("Cierre", DateTime.Today.AddHours(18));
 
                     while (llegadas.Abierto()
@@ -110,17 +116,15 @@ namespace TP4
                     {
                         simulacion++;
 
-                        Cliente cliente;
-
                         while (afuera > n)
                         {
                             n++;
-                            cliente = new Cliente($"Camión {n}");
-                            cliente.Llegar(horaInicio);
-                            recepcion.LlegadaCliente(horaInicio, cliente);
+                            var clientePendiente = new Cliente($"Camión {n}");
+                            clientePendiente.Llegar(horaInicio);
+                            recepcion.LlegadaCliente(horaInicio, clientePendiente);
                             if (dia == 1 && simulacion < hasta)
                             {
-                                clientes.Add(cliente);
+                                clientes.Add(clientePendiente);
                                 dg_simulaciones.Columns.Add($"llegada_camion_{n}", $"Llegada Camión {n}");
                                 dg_simulaciones.Columns.Add($"estado_camion_{n}", $"Estado Camión {n}");
                                 dg_simulaciones.Columns.Add($"permanencia_camion_{n}", $"Permanencia Camión {n}");
@@ -145,13 +149,13 @@ namespace TP4
                         {
                             case "Llegada":
                                 n++;
-                                cliente = new Cliente($"Camión {n}");
-                                cliente.Llegar(reloj);
-                                recepcion.LlegadaCliente(reloj, cliente);
+                                var clienteLlegando = new Cliente($"Camión {n}");
+                                clienteLlegando.Llegar(reloj);
+                                recepcion.LlegadaCliente(reloj, clienteLlegando);
                                 llegadas.ActualizarLlegada();
                                 if (dia == 1 && simulacion < hasta)
                                 {
-                                    clientes.Add(cliente);
+                                    clientes.Add(clienteLlegando);
                                     dg_simulaciones.Columns.Add($"llegada_camion_{n}", $"Llegada Camión {n}");
                                     dg_simulaciones.Columns.Add($"estado_camion_{n}", $"Estado Camión {n}");
                                     dg_simulaciones.Columns.Add($"permanencia_camion_{n}", $"Permanencia Camión {n}");
@@ -159,34 +163,34 @@ namespace TP4
                                 break;
 
                             case "Fin Recepción":
-                                cliente = recepcion.FinAtencion();
-                                balanza.LlegadaCliente(reloj, cliente);
+                                var clienteReceptado = recepcion.FinAtencion();
+                                balanza.LlegadaCliente(reloj, clienteReceptado);
                                 break;
 
                             case "Fin Balanza":
-                                cliente = balanza.FinAtencion();
+                                var clientePesado = balanza.FinAtencion();
                                 if(darsena1.EstaLibre())
-                                    darsena1.LlegadaCliente(reloj, cliente);
+                                    darsena1.LlegadaCliente(reloj, clientePesado);
                                 else
-                                    darsena2.LlegadaCliente(reloj, cliente);
+                                    darsena2.LlegadaCliente(reloj, clientePesado);
                                 break;
 
                             case "Fin Dársena 1":
-                                cliente = darsena1.FinAtencion();
-                                if (cliente != null)
+                                var clienteSaliendo1 = darsena1.FinAtencion();
+                                if (clienteSaliendo1 != null)
                                 {
-                                    cliente.Salir(reloj);
-                                    permanencia = (permanencia * atendidos + cliente.TiempoEnSistema) / (atendidos + 1);
+                                    clienteSaliendo1.Salir(reloj);
+                                    permanencia = (permanencia * atendidos + clienteSaliendo1.TiempoEnSistema) / (atendidos + 1);
                                     atendidos++;
                                 }
                                 break;
 
                             case "Fin Dársena 2":
-                                cliente = darsena2.FinAtencion();
-                                if (cliente != null)
+                                var clienteSaliendo2 = darsena2.FinAtencion();
+                                if (clienteSaliendo2 != null)
                                 {
-                                    cliente.Salir(reloj);
-                                    permanencia = (permanencia * atendidos + cliente.TiempoEnSistema) / (atendidos + 1);
+                                    clienteSaliendo2.Salir(reloj);
+                                    permanencia = (permanencia * atendidos + clienteSaliendo2.TiempoEnSistema) / (atendidos + 1);
                                     atendidos++;
                                 }
                                 break;
@@ -225,13 +229,13 @@ namespace TP4
                                 Math.Round(permanencia, Decimales)
                                 );
 
-                            foreach (var cli in clientes)
+                            foreach (var cliente in clientes)
                             {
-                                var num = cli.Nombre.Split(' ')[1];
+                                var num = cliente.Nombre.Split(' ')[1];
 
-                                dg_simulaciones.Rows[row].Cells[$"llegada_camion_{num}"].Value = cli.HoraLlegada.ToString("HH:mm:ss");
-                                dg_simulaciones.Rows[row].Cells[$"estado_camion_{num}"].Value = cli.Estado;
-                                dg_simulaciones.Rows[row].Cells[$"permanencia_camion_{num}"].Value = Math.Round(cli.TiempoEnSistema, Decimales);
+                                dg_simulaciones.Rows[row].Cells[$"llegada_camion_{num}"].Value = cliente.HoraLlegada.ToString("HH:mm:ss");
+                                dg_simulaciones.Rows[row].Cells[$"estado_camion_{num}"].Value = cliente.Estado;
+                                dg_simulaciones.Rows[row].Cells[$"permanencia_camion_{num}"].Value = Math.Round(cliente.TiempoEnSistema, Decimales);
                             }
                         }
                     }
@@ -240,7 +244,7 @@ namespace TP4
 
                     promedioAtendidos = (promedioAtendidos * (dia - 1) + atendidos) / dia;
                     promedioNoAtendidos = (promedioNoAtendidos * (dia - 1) + noAtendidos) / dia;
-                    promedioPermanencia = (permanenciaAnterior + permanencia) / (promedioAtendidos * dia);
+                    promedioPermanencia = (permanenciaAnterior + permanencia * atendidos) / (promedioAtendidos * dia);
                 }
 
                 if (rb_estrategia_a.Checked)
@@ -248,6 +252,12 @@ namespace TP4
                     txt_atendidos_a.Text = Math.Round(promedioAtendidos, Decimales).ToString();
                     txt_no_atendidos_a.Text = Math.Round(promedioNoAtendidos, Decimales).ToString();
                     txt_permanencia_a.Text = Math.Round(promedioPermanencia, Decimales).ToString();
+                }
+                else
+                {
+                    txt_atendidos_b.Text = Math.Round(promedioAtendidos, Decimales).ToString();
+                    txt_no_atendidos_b.Text = Math.Round(promedioNoAtendidos, Decimales).ToString();
+                    txt_permanencia_b.Text = Math.Round(promedioPermanencia, Decimales).ToString();
                 }
 
                 HabilitarComparacion();
@@ -265,7 +275,7 @@ namespace TP4
 
             if (!atendidosA.Equals(atendidosB))
             {
-                porcentaje = Math.Round(Math.Abs(atendidosB / atendidosA * 100), Decimales);
+                porcentaje = Math.Round(Math.Abs((atendidosB - atendidosA) / atendidosA * 100), Decimales);
                 masMenos = atendidosB > atendidosA ? "Más" : "Menos";
 
                 sb.Append($"Con la estrategia B se atendieron un {porcentaje}% {masMenos} de camiones.");
@@ -281,7 +291,7 @@ namespace TP4
 
             if (!noAtendidosA.Equals(noAtendidosB))
             {
-                porcentaje = Math.Round(Math.Abs(noAtendidosB / noAtendidosA * 100), Decimales);
+                porcentaje = Math.Round(Math.Abs((noAtendidosB - noAtendidosA) / noAtendidosA * 100), Decimales);
                 masMenos = noAtendidosB > noAtendidosA ? "Más" : "Menos";
 
                 sb.Append($"Con la estrategia B quedaron afuera un {porcentaje}% {masMenos} de camiones.");
@@ -297,7 +307,7 @@ namespace TP4
 
             if (!permanenciaA.Equals(permanenciaB))
             {
-                porcentaje = Math.Round(Math.Abs(permanenciaB / permanenciaA * 100), Decimales);
+                porcentaje = Math.Round(Math.Abs((permanenciaB - permanenciaA) / permanenciaA * 100), Decimales);
                 masMenos = permanenciaB > permanenciaA ? "Más" : "Menos";
 
                 sb.Append($"Con la estrategia B los camiones permanecieron un {porcentaje}% {masMenos} de tiempo.");

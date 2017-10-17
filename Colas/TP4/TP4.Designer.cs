@@ -482,7 +482,7 @@
             this.txt_hasta.Name = "txt_hasta";
             this.txt_hasta.Size = new System.Drawing.Size(37, 20);
             this.txt_hasta.TabIndex = 5;
-            this.txt_hasta.Text = "10";
+            this.txt_hasta.Text = "100";
             // 
             // txt_desde
             // 
@@ -551,9 +551,12 @@
             // 
             // dg_simulaciones
             // 
+            this.dg_simulaciones.AllowUserToAddRows = false;
+            this.dg_simulaciones.AllowUserToDeleteRows = false;
             this.dg_simulaciones.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dg_simulaciones.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dg_simulaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg_simulaciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.reloj,
@@ -585,96 +588,134 @@
             // 
             this.reloj.HeaderText = "Reloj";
             this.reloj.Name = "reloj";
+            this.reloj.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.reloj.Width = 37;
             // 
             // evento
             // 
             this.evento.HeaderText = "Evento";
             this.evento.Name = "evento";
+            this.evento.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.evento.Width = 47;
             // 
             // proxima_llegada
             // 
             this.proxima_llegada.HeaderText = "Próxima Llegada";
             this.proxima_llegada.Name = "proxima_llegada";
+            this.proxima_llegada.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.proxima_llegada.Width = 82;
             // 
             // cola_recepcion
             // 
             this.cola_recepcion.HeaderText = "Cola Recepción";
             this.cola_recepcion.Name = "cola_recepcion";
+            this.cola_recepcion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.cola_recepcion.Width = 80;
             // 
             // estado_recepcion
             // 
             this.estado_recepcion.HeaderText = "Estado Recepción";
             this.estado_recepcion.Name = "estado_recepcion";
+            this.estado_recepcion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.estado_recepcion.Width = 91;
             // 
             // proximo_fin_recepcion
             // 
             this.proximo_fin_recepcion.HeaderText = "Próximo Fin Recepción";
             this.proximo_fin_recepcion.Name = "proximo_fin_recepcion";
+            this.proximo_fin_recepcion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.proximo_fin_recepcion.Width = 110;
             // 
             // cola_balanza
             // 
             this.cola_balanza.HeaderText = "Cola Balanza";
             this.cola_balanza.Name = "cola_balanza";
+            this.cola_balanza.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.cola_balanza.Width = 68;
             // 
             // estado_balanza
             // 
             this.estado_balanza.HeaderText = "Estado Balanza";
             this.estado_balanza.Name = "estado_balanza";
+            this.estado_balanza.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.estado_balanza.Width = 78;
             // 
             // proximo_fin_balanza
             // 
             this.proximo_fin_balanza.HeaderText = "Próximo Fin Balanza";
             this.proximo_fin_balanza.Name = "proximo_fin_balanza";
+            this.proximo_fin_balanza.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.proximo_fin_balanza.Width = 97;
             // 
             // cola_darsenas
             // 
             this.cola_darsenas.HeaderText = "Cola Dársenas";
             this.cola_darsenas.Name = "cola_darsenas";
+            this.cola_darsenas.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.cola_darsenas.Width = 74;
             // 
             // estado_darsena_1
             // 
             this.estado_darsena_1.HeaderText = "Estado Dársena 1";
             this.estado_darsena_1.Name = "estado_darsena_1";
+            this.estado_darsena_1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.estado_darsena_1.Width = 88;
             // 
             // proximo_fin_darsena_1
             // 
             this.proximo_fin_darsena_1.HeaderText = "Próximo Fin Dársena 1";
             this.proximo_fin_darsena_1.Name = "proximo_fin_darsena_1";
+            this.proximo_fin_darsena_1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.proximo_fin_darsena_1.Width = 107;
             // 
             // atendidos_darsena_1
             // 
             this.atendidos_darsena_1.HeaderText = "Atendidos Dársena 1";
             this.atendidos_darsena_1.Name = "atendidos_darsena_1";
+            this.atendidos_darsena_1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.atendidos_darsena_1.Width = 101;
             // 
             // estado_darsena_2
             // 
             this.estado_darsena_2.HeaderText = "Estado Dársena 2";
             this.estado_darsena_2.Name = "estado_darsena_2";
+            this.estado_darsena_2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.estado_darsena_2.Width = 88;
             // 
             // proximo_fin_darsena_2
             // 
             this.proximo_fin_darsena_2.HeaderText = "Próximo Fin Dársena 2";
             this.proximo_fin_darsena_2.Name = "proximo_fin_darsena_2";
+            this.proximo_fin_darsena_2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.proximo_fin_darsena_2.Width = 107;
             // 
             // atendidos_darsena_2
             // 
             this.atendidos_darsena_2.HeaderText = "Atendidos Dársena 2";
             this.atendidos_darsena_2.Name = "atendidos_darsena_2";
+            this.atendidos_darsena_2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.atendidos_darsena_2.Width = 101;
             // 
             // total_atendidos
             // 
             this.total_atendidos.HeaderText = "Total Atendidos";
             this.total_atendidos.Name = "total_atendidos";
+            this.total_atendidos.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.total_atendidos.Width = 78;
             // 
             // sin_atender
             // 
             this.sin_atender.HeaderText = "Total Sin Atender";
             this.sin_atender.Name = "sin_atender";
+            this.sin_atender.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.sin_atender.Width = 86;
             // 
             // permanencia
             // 
             this.permanencia.HeaderText = "Permanencia Promedio";
             this.permanencia.Name = "permanencia";
+            this.permanencia.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.permanencia.Width = 110;
             // 
             // Tp4
             // 

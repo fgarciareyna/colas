@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Threading;
 
 namespace NumerosAleatorios.NumerosAleatorios
 {
      public class GeneradorDelSistema : IGeneradorNumerosAleatorios
     {
+        private readonly Random _random = new Random();
+
         public double Generar()
         {
-            Thread.Sleep(20); // Para que la semilla sea distinta
-
-            var aleatorio = new Random().NextDouble();
+            var aleatorio = _random.NextDouble();
 
             return aleatorio;
         }

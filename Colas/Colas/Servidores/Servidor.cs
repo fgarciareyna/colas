@@ -86,6 +86,8 @@ namespace Colas.Servidores
                 else
                 {
                     ClienteActual = Cola.ProximoCliente();
+                    Estado = $"Atendiendo a {ClienteActual.Nombre}";
+                    ClienteActual.ComenzarAtencion(ProximoFinAtencion.Value, Nombre);
                     ActualizarFinAtencion(ProximoFinAtencion.Value);
                 }
             }

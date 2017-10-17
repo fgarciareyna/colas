@@ -42,6 +42,12 @@ namespace Colas.Clientes
 
             TiempoEnSistema = salida - ingreso;
 
+            if (horaSalida.Date > HoraLlegada.Date)
+            {
+                var dias = horaSalida.Day - HoraLlegada.Day;
+                TiempoEnSistema += dias * 24 * 60;
+            }
+
             Estado = "Saliendo";
         }
 
