@@ -96,11 +96,11 @@ namespace TP4
                 decimal promedioPermanencia = 0;
 
                 var afuera = 0;
+                var simulacion = 0;
+                var numCamion = 0;
 
                 for (var dia = 1; dia <= dias; dia++)
                 {
-                    var simulacion = 0;
-                    var n = 0;
                     var atendidos = 0;
                     var noAtendidos = 0;
                     decimal permanencia = 0;
@@ -116,18 +116,18 @@ namespace TP4
                     {
                         simulacion++;
 
-                        while (afuera > n)
+                        for (var c = 0; c < afuera; c++)
                         {
-                            n++;
-                            var clientePendiente = new Cliente($"Camión {n}");
+                            numCamion++;
+                            var clientePendiente = new Cliente($"Camión {numCamion}");
                             clientePendiente.Llegar(horaInicio);
                             recepcion.LlegadaCliente(horaInicio, clientePendiente);
-                            if (dia == 1 && simulacion < hasta)
+                            if (simulacion < hasta)
                             {
                                 clientes.Add(clientePendiente);
-                                dg_simulaciones.Columns.Add($"llegada_camion_{n}", $"Llegada Camión {n}");
-                                dg_simulaciones.Columns.Add($"estado_camion_{n}", $"Estado Camión {n}");
-                                dg_simulaciones.Columns.Add($"permanencia_camion_{n}", $"Permanencia Camión {n}");
+                                dg_simulaciones.Columns.Add($"llegada_camion_{numCamion}", $"Llegada Camión {numCamion}");
+                                dg_simulaciones.Columns.Add($"estado_camion_{numCamion}", $"Estado Camión {numCamion}");
+                                dg_simulaciones.Columns.Add($"permanencia_camion_{numCamion}", $"Permanencia Camión {numCamion}");
                             }
                         }
 
@@ -148,17 +148,17 @@ namespace TP4
                         switch (evento)
                         {
                             case "Llegada":
-                                n++;
-                                var clienteLlegando = new Cliente($"Camión {n}");
+                                numCamion++;
+                                var clienteLlegando = new Cliente($"Camión {numCamion}");
                                 clienteLlegando.Llegar(reloj);
                                 recepcion.LlegadaCliente(reloj, clienteLlegando);
                                 llegadas.ActualizarLlegada();
-                                if (dia == 1 && simulacion < hasta)
+                                if (simulacion < hasta)
                                 {
                                     clientes.Add(clienteLlegando);
-                                    dg_simulaciones.Columns.Add($"llegada_camion_{n}", $"Llegada Camión {n}");
-                                    dg_simulaciones.Columns.Add($"estado_camion_{n}", $"Estado Camión {n}");
-                                    dg_simulaciones.Columns.Add($"permanencia_camion_{n}", $"Permanencia Camión {n}");
+                                    dg_simulaciones.Columns.Add($"llegada_camion_{numCamion}", $"Llegada Camión {numCamion}");
+                                    dg_simulaciones.Columns.Add($"estado_camion_{numCamion}", $"Estado Camión {numCamion}");
+                                    dg_simulaciones.Columns.Add($"permanencia_camion_{numCamion}", $"Permanencia Camión {numCamion}");
                                 }
                                 break;
 
@@ -205,7 +205,7 @@ namespace TP4
                                 break;
                         }
 
-                        if (dia == 1 && simulacion >= desde && simulacion <= hasta)
+                        if (simulacion >= desde && simulacion <= hasta)
                         {
                             var row = dg_simulaciones.Rows.Add(
                                 reloj.ToString("HH:mm:ss"),
