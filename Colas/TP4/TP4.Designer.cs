@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gb_llegadas = new System.Windows.Forms.GroupBox();
             this.txt_llegadas_lambda = new System.Windows.Forms.TextBox();
             this.lbl_llegadas_lambda = new System.Windows.Forms.Label();
@@ -95,6 +95,7 @@
             this.total_atendidos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sin_atender = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.permanencia = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_detener = new System.Windows.Forms.Button();
             this.gb_llegadas.SuspendLayout();
             this.gb_recepcion.SuspendLayout();
             this.gb_balanza.SuspendLayout();
@@ -561,14 +562,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dg_simulaciones.CausesValidation = false;
             this.dg_simulaciones.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dg_simulaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dg_simulaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dg_simulaciones.ColumnHeadersHeight = 41;
             this.dg_simulaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dg_simulaciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -606,7 +607,7 @@
             this.dg_simulaciones.ShowCellToolTips = false;
             this.dg_simulaciones.ShowEditingIcon = false;
             this.dg_simulaciones.ShowRowErrors = false;
-            this.dg_simulaciones.Size = new System.Drawing.Size(609, 421);
+            this.dg_simulaciones.Size = new System.Drawing.Size(735, 421);
             this.dg_simulaciones.TabIndex = 11;
             // 
             // reloj
@@ -820,11 +821,23 @@
             this.permanencia.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.permanencia.Width = 90;
             // 
+            // btn_detener
+            // 
+            this.btn_detener.Enabled = false;
+            this.btn_detener.Location = new System.Drawing.Point(758, 103);
+            this.btn_detener.Name = "btn_detener";
+            this.btn_detener.Size = new System.Drawing.Size(75, 23);
+            this.btn_detener.TabIndex = 12;
+            this.btn_detener.Text = "Detener";
+            this.btn_detener.UseVisualStyleBackColor = true;
+            this.btn_detener.Click += new System.EventHandler(this.btn_detener_Click);
+            // 
             // Tp4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(772, 575);
+            this.ClientSize = new System.Drawing.Size(898, 575);
+            this.Controls.Add(this.btn_detener);
             this.Controls.Add(this.dg_simulaciones);
             this.Controls.Add(this.btn_comparar);
             this.Controls.Add(this.btn_simular);
@@ -926,6 +939,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn total_atendidos;
         private System.Windows.Forms.DataGridViewTextBoxColumn sin_atender;
         private System.Windows.Forms.DataGridViewTextBoxColumn permanencia;
+        private System.Windows.Forms.Button btn_detener;
     }
 }
 

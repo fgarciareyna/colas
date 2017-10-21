@@ -19,13 +19,15 @@ namespace TP4
     {
         private const int Decimales = 2;
 
-        public delegate void InicioFinDelegate(bool fin);
-        public delegate void ColumnasDelegate(int numCamion);
-        public delegate void FilaDelegate(DateTime relojActual, string eventoActual, Llegada llegadas, ICola colaRecepcion,
+        private delegate void InicioFinDelegate(bool fin);
+        private delegate void ColumnasDelegate(int numCamion);
+        private delegate void FilaDelegate(DateTime relojActual, string eventoActual, Llegada llegadas, ICola colaRecepcion,
             Servidor recepcion, ICola colaBalanza, Servidor balanza, ICola colaDarsenas, Servidor darsena1,
             Servidor darsena2, int atendidos, int noAtendidos, decimal permanenciaDiaria, IEnumerable<Cliente> clientes);
-        public delegate void ResultadosDelegate(decimal promedioAtendidos, decimal promedioNoAtendidos,
+        private delegate void ResultadosDelegate(decimal promedioAtendidos, decimal promedioNoAtendidos,
             decimal promedioPermanencia);
+
+        private bool _cancelar;
 
         public Tp4()
         {
@@ -114,8 +116,12 @@ namespace TP4
             var numCamion = 0;
             var clientes = new List<Cliente>();
 
+            _cancelar = false;
+
             for (var dia = 1; dia <= dias; dia++)
             {
+                if (_cancelar) break;
+
                 var llegando = 0;
                 var atendidos = 0;
                 var noAtendidos = 0;
@@ -129,10 +135,14 @@ namespace TP4
                        || !darsena1.EstaLibre()
                        || !darsena2.EstaLibre())
                 {
+                    if (_cancelar) break;
+
                     simulacion++;
 
                     while (llegando < afuera)
                     {
+                        if (_cancelar) break;
+
                         llegando++;
                         numCamion++;
                         var clientePendiente = new Cliente($"Camión {numCamion}");
@@ -238,7 +248,9 @@ namespace TP4
 
             Invoke(inicioFinInstance, true);
 
-            MessageBox.Show(@"Simulación Completa");
+            var resultado = _cancelar ? "interrumpida" : "completa";
+
+            MessageBox.Show($@"Simulación {resultado}", @"Resultado");
         }
 
         public void InicioFin(bool fin)
@@ -247,6 +259,8 @@ namespace TP4
             rb_estrategia_b.Enabled = fin;
             btn_simular.Enabled = fin;
             btn_comparar.Enabled = fin;
+
+            btn_detener.Enabled = !fin;
 
             if (fin)
             {
@@ -416,6 +430,11 @@ namespace TP4
             }
 
             MessageBox.Show(sb.ToString(), @"Resultado");
+        }
+
+        private void btn_detener_Click(object sender, EventArgs e)
+        {
+            _cancelar = true;
         }
 
         private bool FormularioValido()
