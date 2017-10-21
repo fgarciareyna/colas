@@ -19,6 +19,15 @@ namespace TP4
     {
         private const int Decimales = 2;
 
+        public delegate void LimpiarDelegate();
+        public delegate void ColumnasDelegate(int numCamion);
+        public delegate void FilaDelegate(DateTime relojActual, string eventoActual, Llegada llegadas, ICola colaRecepcion,
+            Servidor recepcion, ICola colaBalanza, Servidor balanza, ICola colaDarsenas, Servidor darsena1,
+            Servidor darsena2, int atendidos, int noAtendidos, decimal permanenciaDiaria, IEnumerable<Cliente> clientes);
+        public delegate void ResultadosDelegate(decimal promedioAtendidos, decimal promedioNoAtendidos,
+            decimal promedioPermanencia);
+        public delegate void CompararDelegate();
+
         public Tp4()
         {
             var culture = CultureInfo.InvariantCulture;
@@ -44,17 +53,18 @@ namespace TP4
         {
             if (!FormularioValido()) return;
 
-            Simular();
+            new Thread(Simular).Start();
         }
 
         private void Simular()
         {
-            dg_simulaciones.Rows.Clear();
-            var cols = dg_simulaciones.Columns.Count;
-            for (var c = cols - 1; c >= 19; c--)
-            {
-                dg_simulaciones.Columns.RemoveAt(c);
-            }
+            var limpiarInstance = new LimpiarDelegate(Limpiar);
+            var columnasInstance = new ColumnasDelegate(AgregarColumnas);
+            var filaInstance = new FilaDelegate(AgregarFila);
+            var resultadosInstance = new ResultadosDelegate(MostrarResultados);
+            var compararInstance = new CompararDelegate(HabilitarComparacion);
+
+            Invoke(limpiarInstance);
 
             var recepcionA = double.Parse(txt_recepcion_a.Text);
             var recepcionB = double.Parse(txt_recepcion_b.Text);
@@ -77,8 +87,7 @@ namespace TP4
             var distribucionRecalibracion = new DistribucionNormal(mediaRecalibracion, varianzaRecalibracion);
             var darsena1 = new Servidor(distribucionDarsenas, colaDarsenas, "Dársena 1", distribucionRecalibracion);
             var darsena2 = new Servidor(distribucionDarsenas, colaDarsenas, "Dársena 2", distribucionRecalibracion);
-
-
+            
             IDistribucion distribucionLlegadas;
             DateTime horaInicio;
 
@@ -135,7 +144,7 @@ namespace TP4
                         {
                             clientes.Add(clientePendiente);
 
-                            AgregarColumnas(numCamion);
+                            Invoke(columnasInstance, numCamion);
                         }
                     }
 
@@ -166,7 +175,7 @@ namespace TP4
                             {
                                 clientes.Add(clienteLlegando);
 
-                                AgregarColumnas(numCamion);
+                                Invoke(columnasInstance, numCamion);
                             }
                             break;
 
@@ -215,9 +224,8 @@ namespace TP4
 
                     if (simulacion >= desde && simulacion <= hasta)
                     {
-                        AgregarFila(relojActual, eventoActual, llegadas, colaRecepcion, recepcion, colaBalanza,
-                            balanza, colaDarsenas, darsena1, darsena2, atendidos, noAtendidos, permanenciaDiaria,
-                            clientes);
+                        Invoke(filaInstance, relojActual, eventoActual, llegadas, colaRecepcion, recepcion, colaBalanza,
+                            balanza, colaDarsenas, darsena1, darsena2, atendidos, noAtendidos, permanenciaDiaria, clientes);
                     }
                 }
 
@@ -228,9 +236,21 @@ namespace TP4
                 promedioPermanencia = (permanenciaAnterior + permanenciaDiaria * atendidos) / (promedioAtendidos * dia);
             }
 
-            MostrarResultados(promedioAtendidos, promedioNoAtendidos, promedioPermanencia);
+            Invoke(resultadosInstance, promedioAtendidos, promedioNoAtendidos, promedioPermanencia);
 
-            HabilitarComparacion();
+            Invoke(compararInstance);
+
+            MessageBox.Show(@"Simulación Completa");
+        }
+
+        public void Limpiar()
+        {
+            dg_simulaciones.Rows.Clear();
+            var cols = dg_simulaciones.Columns.Count;
+            for (var c = cols - 1; c >= 19; c--)
+            {
+                dg_simulaciones.Columns.RemoveAt(c);
+            }
         }
 
         private void AgregarColumnas(int numCamion)
