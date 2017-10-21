@@ -19,14 +19,13 @@ namespace TP4
     {
         private const int Decimales = 2;
 
-        public delegate void LimpiarDelegate();
+        public delegate void InicioFinDelegate(bool fin);
         public delegate void ColumnasDelegate(int numCamion);
         public delegate void FilaDelegate(DateTime relojActual, string eventoActual, Llegada llegadas, ICola colaRecepcion,
             Servidor recepcion, ICola colaBalanza, Servidor balanza, ICola colaDarsenas, Servidor darsena1,
             Servidor darsena2, int atendidos, int noAtendidos, decimal permanenciaDiaria, IEnumerable<Cliente> clientes);
         public delegate void ResultadosDelegate(decimal promedioAtendidos, decimal promedioNoAtendidos,
             decimal promedioPermanencia);
-        public delegate void CompararDelegate();
 
         public Tp4()
         {
@@ -58,13 +57,10 @@ namespace TP4
 
         private void Simular()
         {
-            var limpiarInstance = new LimpiarDelegate(Limpiar);
+            var inicioFinInstance = new InicioFinDelegate(InicioFin);
             var columnasInstance = new ColumnasDelegate(AgregarColumnas);
             var filaInstance = new FilaDelegate(AgregarFila);
             var resultadosInstance = new ResultadosDelegate(MostrarResultados);
-            var compararInstance = new CompararDelegate(HabilitarComparacion);
-
-            Invoke(limpiarInstance);
 
             var recepcionA = double.Parse(txt_recepcion_a.Text);
             var recepcionB = double.Parse(txt_recepcion_b.Text);
@@ -106,6 +102,8 @@ namespace TP4
             var dias = int.Parse(txt_dias.Text);
             var desde = int.Parse(txt_desde.Text);
             var hasta = int.Parse(txt_hasta.Text);
+
+            Invoke(inicioFinInstance, false);
 
             decimal promedioAtendidos = 0;
             decimal promedioNoAtendidos = 0;
@@ -238,19 +236,34 @@ namespace TP4
 
             Invoke(resultadosInstance, promedioAtendidos, promedioNoAtendidos, promedioPermanencia);
 
-            Invoke(compararInstance);
+            Invoke(inicioFinInstance, true);
 
             MessageBox.Show(@"Simulación Completa");
         }
 
-        public void Limpiar()
+        public void InicioFin(bool fin)
         {
-            dg_simulaciones.Rows.Clear();
-            var cols = dg_simulaciones.Columns.Count;
-            for (var c = cols - 1; c >= 19; c--)
+            rb_estrategia_a.Enabled = fin;
+            rb_estrategia_b.Enabled = fin;
+            btn_simular.Enabled = fin;
+            btn_comparar.Enabled = fin;
+
+            if (fin)
             {
-                dg_simulaciones.Columns.RemoveAt(c);
+                HabilitarComparacion();
             }
+            else
+            {
+                btn_comparar.Enabled = false;
+
+                dg_simulaciones.Rows.Clear();
+                var cols = dg_simulaciones.Columns.Count;
+                for (var c = cols - 1; c >= 19; c--)
+                {
+                    dg_simulaciones.Columns.RemoveAt(c);
+                }
+            }
+                
         }
 
         private void AgregarColumnas(int numCamion)
