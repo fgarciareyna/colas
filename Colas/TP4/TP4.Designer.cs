@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gb_llegadas = new System.Windows.Forms.GroupBox();
             this.txt_llegadas_lambda = new System.Windows.Forms.TextBox();
             this.lbl_llegadas_lambda = new System.Windows.Forms.Label();
@@ -561,14 +561,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dg_simulaciones.CausesValidation = false;
             this.dg_simulaciones.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dg_simulaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dg_simulaciones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dg_simulaciones.ColumnHeadersHeight = 41;
             this.dg_simulaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dg_simulaciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -835,8 +835,10 @@
             this.Controls.Add(this.gb_balanza);
             this.Controls.Add(this.gb_recepcion);
             this.Controls.Add(this.gb_llegadas);
+            this.DoubleBuffered = true;
             this.Name = "Tp4";
             this.Text = "Colas";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.gb_llegadas.ResumeLayout(false);
             this.gb_llegadas.PerformLayout();
             this.gb_recepcion.ResumeLayout(false);

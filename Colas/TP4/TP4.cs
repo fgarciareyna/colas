@@ -44,9 +44,14 @@ namespace TP4
         {
             if (!FormularioValido()) return;
 
+            Simular();
+        }
+
+        private void Simular()
+        {
             dg_simulaciones.Rows.Clear();
             var cols = dg_simulaciones.Columns.Count;
-            for (var c = cols-1; c >= 19; c--)
+            for (var c = cols - 1; c >= 19; c--)
             {
                 dg_simulaciones.Columns.RemoveAt(c);
             }
@@ -107,7 +112,7 @@ namespace TP4
                 var llegando = 0;
                 var atendidos = 0;
                 var noAtendidos = 0;
-                decimal permanencia = 0;
+                decimal permanenciaDiaria = 0;
                 var llegadas = new Llegada(distribucionLlegadas, horaInicio);
                 var cierre = new Evento("Cierre", DateTime.Today.AddHours(18));
 
@@ -130,33 +135,7 @@ namespace TP4
                         {
                             clientes.Add(clientePendiente);
 
-                            var columns = new DataGridViewColumn[3];
-
-                            DataGridViewColumn columnLlegada = new DataGridViewTextBoxColumn();
-                            columnLlegada.CellTemplate = new DataGridViewTextBoxCell();
-                            columnLlegada.Name = $"llegada_camion_{numCamion}";
-                            columnLlegada.HeaderText = $@"Llegada Camión {numCamion}";
-                            columnLlegada.Width = 80;
-                            columnLlegada.FillWeight = 1;
-                            columns[0] = (columnLlegada);
-
-                            DataGridViewColumn columnEstado = new DataGridViewTextBoxColumn();
-                            columnEstado.CellTemplate = new DataGridViewTextBoxCell();
-                            columnEstado.Name = $"estado_camion_{numCamion}";
-                            columnEstado.HeaderText = $@"Estado Camión {numCamion}";
-                            columnEstado.Width = 80;
-                            columnEstado.FillWeight = 1;
-                            columns[1] = (columnEstado);
-
-                            DataGridViewColumn columnPermanencia = new DataGridViewTextBoxColumn();
-                            columnPermanencia.CellTemplate = new DataGridViewTextBoxCell();
-                            columnPermanencia.Name = $"permanencia_camion_{numCamion}";
-                            columnPermanencia.HeaderText = $@"Permanencia Camión {numCamion}";
-                            columnPermanencia.Width = 80;
-                            columnPermanencia.FillWeight = 1;
-                            columns[2] = (columnPermanencia);
-
-                            dg_simulaciones.Columns.AddRange(columns);
+                            AgregarColumnas(numCamion);
                         }
                     }
 
@@ -171,71 +150,45 @@ namespace TP4
                     };
 
                     // ReSharper disable once PossibleInvalidOperationException
-                    var reloj = eventos.Where(ev => ev.Hora.HasValue).Min(ev => ev.Hora).Value;
-                    var evento = eventos.First(ev => ev.Hora.Equals(reloj)).Nombre;
-                        
-                    switch (evento)
+                    var relojActual = eventos.Where(ev => ev.Hora.HasValue).Min(ev => ev.Hora).Value;
+                    var eventoActual = eventos.First(ev => ev.Hora.Equals(relojActual)).Nombre;
+
+                    switch (eventoActual)
                     {
                         case "Llegada":
                             llegando++;
                             numCamion++;
                             var clienteLlegando = new Cliente($"Camión {numCamion}");
-                            clienteLlegando.Llegar(reloj);
-                            recepcion.LlegadaCliente(reloj, clienteLlegando);
+                            clienteLlegando.Llegar(relojActual);
+                            recepcion.LlegadaCliente(relojActual, clienteLlegando);
                             llegadas.ActualizarLlegada();
                             if (simulacion < hasta)
                             {
                                 clientes.Add(clienteLlegando);
 
-                                var columns = new DataGridViewColumn[3];
-
-                                DataGridViewColumn columnLlegada = new DataGridViewTextBoxColumn();
-                                columnLlegada.CellTemplate = new DataGridViewTextBoxCell();
-                                columnLlegada.Name = $"llegada_camion_{numCamion}";
-                                columnLlegada.HeaderText = $@"Llegada Camión {numCamion}";
-                                columnLlegada.Width = 80;
-                                columnLlegada.FillWeight = 1;
-                                columns[0] = (columnLlegada);
-
-                                DataGridViewColumn columnEstado = new DataGridViewTextBoxColumn();
-                                columnEstado.CellTemplate = new DataGridViewTextBoxCell();
-                                columnEstado.Name = $"estado_camion_{numCamion}";
-                                columnEstado.HeaderText = $@"Estado Camión {numCamion}";
-                                columnEstado.Width = 80;
-                                columnEstado.FillWeight = 1;
-                                columns[1] = (columnEstado);
-
-                                DataGridViewColumn columnPermanencia = new DataGridViewTextBoxColumn();
-                                columnPermanencia.CellTemplate = new DataGridViewTextBoxCell();
-                                columnPermanencia.Name = $"permanencia_camion_{numCamion}";
-                                columnPermanencia.HeaderText = $@"Permanencia Camión {numCamion}";
-                                columnPermanencia.Width = 80;
-                                columnPermanencia.FillWeight = 1;
-                                columns[2] = (columnPermanencia);
-
-                                dg_simulaciones.Columns.AddRange(columns);
+                                AgregarColumnas(numCamion);
                             }
                             break;
 
                         case "Fin Recepción":
                             var clienteReceptado = recepcion.FinAtencion();
-                            balanza.LlegadaCliente(reloj, clienteReceptado);
+                            balanza.LlegadaCliente(relojActual, clienteReceptado);
                             break;
 
                         case "Fin Balanza":
                             var clientePesado = balanza.FinAtencion();
-                            if(darsena1.EstaLibre())
-                                darsena1.LlegadaCliente(reloj, clientePesado);
+                            if (darsena1.EstaLibre())
+                                darsena1.LlegadaCliente(relojActual, clientePesado);
                             else
-                                darsena2.LlegadaCliente(reloj, clientePesado);
+                                darsena2.LlegadaCliente(relojActual, clientePesado);
                             break;
 
                         case "Fin Dársena 1":
                             var clienteSaliendo1 = darsena1.FinAtencion();
                             if (clienteSaliendo1 != null)
                             {
-                                clienteSaliendo1.Salir(reloj);
-                                permanencia = (permanencia * atendidos + clienteSaliendo1.TiempoEnSistema) / (atendidos + 1);
+                                clienteSaliendo1.Salir(relojActual);
+                                permanenciaDiaria = (permanenciaDiaria * atendidos + clienteSaliendo1.TiempoEnSistema) / (atendidos + 1);
                                 atendidos++;
                             }
                             break;
@@ -244,8 +197,8 @@ namespace TP4
                             var clienteSaliendo2 = darsena2.FinAtencion();
                             if (clienteSaliendo2 != null)
                             {
-                                clienteSaliendo2.Salir(reloj);
-                                permanencia = (permanencia * atendidos + clienteSaliendo2.TiempoEnSistema) / (atendidos + 1);
+                                clienteSaliendo2.Salir(relojActual);
+                                permanenciaDiaria = (permanenciaDiaria * atendidos + clienteSaliendo2.TiempoEnSistema) / (atendidos + 1);
                                 atendidos++;
                             }
                             break;
@@ -262,9 +215,62 @@ namespace TP4
 
                     if (simulacion >= desde && simulacion <= hasta)
                     {
-                        var row = dg_simulaciones.Rows.Add(
-                            reloj.ToString("HH:mm:ss"),
-                            evento,
+                        AgregarFila(relojActual, eventoActual, llegadas, colaRecepcion, recepcion, colaBalanza,
+                            balanza, colaDarsenas, darsena1, darsena2, atendidos, noAtendidos, permanenciaDiaria,
+                            clientes);
+                    }
+                }
+
+                var permanenciaAnterior = promedioPermanencia * promedioAtendidos * (dia - 1);
+
+                promedioAtendidos = (promedioAtendidos * (dia - 1) + atendidos) / dia;
+                promedioNoAtendidos = (promedioNoAtendidos * (dia - 1) + noAtendidos) / dia;
+                promedioPermanencia = (permanenciaAnterior + permanenciaDiaria * atendidos) / (promedioAtendidos * dia);
+            }
+
+            MostrarResultados(promedioAtendidos, promedioNoAtendidos, promedioPermanencia);
+
+            HabilitarComparacion();
+        }
+
+        private void AgregarColumnas(int numCamion)
+        {
+            var columns = new DataGridViewColumn[3];
+
+            DataGridViewColumn columnLlegada = new DataGridViewTextBoxColumn();
+            columnLlegada.CellTemplate = new DataGridViewTextBoxCell();
+            columnLlegada.Name = $"llegada_camion_{numCamion}";
+            columnLlegada.HeaderText = $@"Llegada Camión {numCamion}";
+            columnLlegada.Width = 80;
+            columnLlegada.FillWeight = 1;
+            columns[0] = (columnLlegada);
+
+            DataGridViewColumn columnEstado = new DataGridViewTextBoxColumn();
+            columnEstado.CellTemplate = new DataGridViewTextBoxCell();
+            columnEstado.Name = $"estado_camion_{numCamion}";
+            columnEstado.HeaderText = $@"Estado Camión {numCamion}";
+            columnEstado.Width = 80;
+            columnEstado.FillWeight = 1;
+            columns[1] = (columnEstado);
+
+            DataGridViewColumn columnPermanencia = new DataGridViewTextBoxColumn();
+            columnPermanencia.CellTemplate = new DataGridViewTextBoxCell();
+            columnPermanencia.Name = $"permanencia_camion_{numCamion}";
+            columnPermanencia.HeaderText = $@"Permanencia Camión {numCamion}";
+            columnPermanencia.Width = 80;
+            columnPermanencia.FillWeight = 1;
+            columns[2] = (columnPermanencia);
+
+            dg_simulaciones.Columns.AddRange(columns);
+        }
+
+        private void AgregarFila(DateTime relojActual, string eventoActual, Llegada llegadas, ICola colaRecepcion,
+            Servidor recepcion, ICola colaBalanza, Servidor balanza, ICola colaDarsenas, Servidor darsena1,
+            Servidor darsena2, int atendidos, int noAtendidos, decimal permanenciaDiaria, IEnumerable<Cliente> clientes)
+        {
+            var row = dg_simulaciones.Rows.Add(
+                            relojActual.ToString("HH:mm:ss"),
+                            eventoActual,
                             llegadas.ProximaLlegada?.ToString("HH:mm:ss"),
                             colaRecepcion.Cantidad(),
                             recepcion.Estado,
@@ -281,27 +287,21 @@ namespace TP4
                             darsena2.CantidadAtendidos,
                             atendidos,
                             noAtendidos,
-                            Math.Round(permanencia, Decimales)
+                            Math.Round(permanenciaDiaria, Decimales)
                         );
 
-                        foreach (var cliente in clientes)
-                        {
-                            var num = cliente.Nombre.Split(' ')[1];
+            foreach (var cliente in clientes)
+            {
+                var num = cliente.Nombre.Split(' ')[1];
 
-                            dg_simulaciones.Rows[row].Cells[$"llegada_camion_{num}"].Value = cliente.HoraLlegada.ToString("HH:mm:ss");
-                            dg_simulaciones.Rows[row].Cells[$"estado_camion_{num}"].Value = cliente.Estado;
-                            dg_simulaciones.Rows[row].Cells[$"permanencia_camion_{num}"].Value = Math.Round(cliente.TiempoEnSistema, Decimales);
-                        }
-                    }
-                }
-
-                var permanenciaAnterior = promedioPermanencia * promedioAtendidos * (dia - 1);
-
-                promedioAtendidos = (promedioAtendidos * (dia - 1) + atendidos) / dia;
-                promedioNoAtendidos = (promedioNoAtendidos * (dia - 1) + noAtendidos) / dia;
-                promedioPermanencia = (permanenciaAnterior + permanencia * atendidos) / (promedioAtendidos * dia);
+                dg_simulaciones.Rows[row].Cells[$"llegada_camion_{num}"].Value = cliente.HoraLlegada.ToString("HH:mm:ss");
+                dg_simulaciones.Rows[row].Cells[$"estado_camion_{num}"].Value = cliente.Estado;
+                dg_simulaciones.Rows[row].Cells[$"permanencia_camion_{num}"].Value = Math.Round(cliente.TiempoEnSistema, Decimales);
             }
+        }
 
+        private void MostrarResultados(decimal promedioAtendidos, decimal promedioNoAtendidos, decimal promedioPermanencia)
+        {
             if (rb_estrategia_a.Checked)
             {
                 txt_atendidos_a.Text = Math.Round(promedioAtendidos, Decimales).ToString();
@@ -314,8 +314,6 @@ namespace TP4
                 txt_no_atendidos_b.Text = Math.Round(promedioNoAtendidos, Decimales).ToString();
                 txt_permanencia_b.Text = Math.Round(promedioPermanencia, Decimales).ToString();
             }
-
-            HabilitarComparacion();
         }
 
         private void btn_comparar_Click(object sender, EventArgs e)
@@ -407,7 +405,7 @@ namespace TP4
             return ValidarCantidades(txt_desde, txt_hasta, txt_dias);
         }
 
-        private bool ValidarExponencial(Control txtLambda)
+        private static bool ValidarExponencial(Control txtLambda)
         {
             var mensaje = "Lambda debe ser un número positivo";
 
@@ -428,7 +426,7 @@ namespace TP4
             return true;
         }
 
-        private bool ValidarUniforme(Control txtA, Control txtB)
+        private static bool ValidarUniforme(Control txtA, Control txtB)
         {
             var mensaje = "Ingrese un número válido para A";
 
@@ -473,7 +471,7 @@ namespace TP4
             return true;
         }
 
-        private bool ValidarNormal(Control txtMedia, Control txtVarianza)
+        private static bool ValidarNormal(Control txtMedia, Control txtVarianza)
         {
             var mensaje = "Ingrese un número válido para la media";
 
@@ -510,7 +508,7 @@ namespace TP4
             return true;
         }
 
-        private bool ValidarCantidades(Control txtDesde, Control txtHasta, Control txtDias)
+        private static bool ValidarCantidades(Control txtDesde, Control txtHasta, Control txtDias)
         {
             var mensaje = "Los días deben ser un entero positivo";
 
@@ -571,7 +569,7 @@ namespace TP4
             return true;
         }
 
-        private void MensajeError(string mensaje, Control textBox)
+        private static void MensajeError(string mensaje, Control textBox)
         {
             MessageBox.Show(mensaje, @"Error");
             textBox.Focus();
