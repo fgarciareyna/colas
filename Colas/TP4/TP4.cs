@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -25,6 +26,7 @@ namespace TP4
             Thread.CurrentThread.CurrentUICulture = culture;
 
             InitializeComponent();
+            DoubleBuffer();
         }
 
         private void rb_estrategia_a_CheckedChanged(object sender, EventArgs e)
@@ -127,9 +129,34 @@ namespace TP4
                         if (simulacion < hasta)
                         {
                             clientes.Add(clientePendiente);
-                            dg_simulaciones.Columns.Add($"llegada_camion_{numCamion}", $"Llegada Camión {numCamion}");
-                            dg_simulaciones.Columns.Add($"estado_camion_{numCamion}", $"Estado Camión {numCamion}");
-                            dg_simulaciones.Columns.Add($"permanencia_camion_{numCamion}", $"Permanencia Camión {numCamion}");
+
+                            var columns = new DataGridViewColumn[3];
+
+                            DataGridViewColumn columnLlegada = new DataGridViewTextBoxColumn();
+                            columnLlegada.CellTemplate = new DataGridViewTextBoxCell();
+                            columnLlegada.Name = $"llegada_camion_{numCamion}";
+                            columnLlegada.HeaderText = $@"Llegada Camión {numCamion}";
+                            columnLlegada.Width = 80;
+                            columnLlegada.FillWeight = 1;
+                            columns[0] = (columnLlegada);
+
+                            DataGridViewColumn columnEstado = new DataGridViewTextBoxColumn();
+                            columnEstado.CellTemplate = new DataGridViewTextBoxCell();
+                            columnEstado.Name = $"estado_camion_{numCamion}";
+                            columnEstado.HeaderText = $@"Estado Camión {numCamion}";
+                            columnEstado.Width = 80;
+                            columnEstado.FillWeight = 1;
+                            columns[1] = (columnEstado);
+
+                            DataGridViewColumn columnPermanencia = new DataGridViewTextBoxColumn();
+                            columnPermanencia.CellTemplate = new DataGridViewTextBoxCell();
+                            columnPermanencia.Name = $"permanencia_camion_{numCamion}";
+                            columnPermanencia.HeaderText = $@"Permanencia Camión {numCamion}";
+                            columnPermanencia.Width = 80;
+                            columnPermanencia.FillWeight = 1;
+                            columns[2] = (columnPermanencia);
+
+                            dg_simulaciones.Columns.AddRange(columns);
                         }
                     }
 
@@ -159,9 +186,34 @@ namespace TP4
                             if (simulacion < hasta)
                             {
                                 clientes.Add(clienteLlegando);
-                                dg_simulaciones.Columns.Add($"llegada_camion_{numCamion}", $"Llegada Camión {numCamion}");
-                                dg_simulaciones.Columns.Add($"estado_camion_{numCamion}", $"Estado Camión {numCamion}");
-                                dg_simulaciones.Columns.Add($"permanencia_camion_{numCamion}", $"Permanencia Camión {numCamion}");
+
+                                var columns = new DataGridViewColumn[3];
+
+                                DataGridViewColumn columnLlegada = new DataGridViewTextBoxColumn();
+                                columnLlegada.CellTemplate = new DataGridViewTextBoxCell();
+                                columnLlegada.Name = $"llegada_camion_{numCamion}";
+                                columnLlegada.HeaderText = $@"Llegada Camión {numCamion}";
+                                columnLlegada.Width = 80;
+                                columnLlegada.FillWeight = 1;
+                                columns[0] = (columnLlegada);
+
+                                DataGridViewColumn columnEstado = new DataGridViewTextBoxColumn();
+                                columnEstado.CellTemplate = new DataGridViewTextBoxCell();
+                                columnEstado.Name = $"estado_camion_{numCamion}";
+                                columnEstado.HeaderText = $@"Estado Camión {numCamion}";
+                                columnEstado.Width = 80;
+                                columnEstado.FillWeight = 1;
+                                columns[1] = (columnEstado);
+
+                                DataGridViewColumn columnPermanencia = new DataGridViewTextBoxColumn();
+                                columnPermanencia.CellTemplate = new DataGridViewTextBoxCell();
+                                columnPermanencia.Name = $"permanencia_camion_{numCamion}";
+                                columnPermanencia.HeaderText = $@"Permanencia Camión {numCamion}";
+                                columnPermanencia.Width = 80;
+                                columnPermanencia.FillWeight = 1;
+                                columns[2] = (columnPermanencia);
+
+                                dg_simulaciones.Columns.AddRange(columns);
                             }
                             break;
 
@@ -544,6 +596,14 @@ namespace TP4
         {
             MessageBox.Show(@"Llegada de camiones con una distribución Uniforme entre 7 y 8 minutos, a partir de las 05:00 hs",
                 @"Estrategia B");
+        }
+
+        public void DoubleBuffer()
+        {
+            // ReSharper disable once PossibleNullReferenceException
+            dg_simulaciones.GetType()
+                .GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(dg_simulaciones, true);
         }
     }
 }
