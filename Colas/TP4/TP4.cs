@@ -258,7 +258,6 @@ namespace TP4
             rb_estrategia_a.Enabled = fin;
             rb_estrategia_b.Enabled = fin;
             btn_simular.Enabled = fin;
-            btn_comparar.Enabled = fin;
 
             btn_detener.Enabled = !fin;
 
@@ -268,8 +267,6 @@ namespace TP4
             }
             else
             {
-                btn_comparar.Enabled = false;
-
                 dg_simulaciones.Rows.Clear();
                 var cols = dg_simulaciones.Columns.Count;
                 for (var c = cols - 1; c >= 19; c--)
