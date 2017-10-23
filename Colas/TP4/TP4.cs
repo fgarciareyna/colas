@@ -123,7 +123,7 @@ namespace TP4
             decimal promedioNoAtendidos = 0;
             decimal promedioPermanencia = 0;
 
-            var afuera = 0;
+            var afuera = new List<Cliente>();
             var simulacion = 0;
             var numCamion = 0;
             var clientes = new List<Cliente>();
@@ -133,8 +133,7 @@ namespace TP4
             for (var dia = 1; dia <= dias; dia++)
             {
                 if (_cancelar) break;
-
-                var llegando = 0;
+                
                 var atendidos = 0;
                 var noAtendidos = 0;
                 decimal permanenciaDiaria = 0;
@@ -151,22 +150,16 @@ namespace TP4
 
                     simulacion++;
 
-                    while (llegando < afuera)
+                    if (llegadas.Abierto() && afuera.Count > 0)
                     {
-                        if (_cancelar) break;
-
-                        llegando++;
-                        numCamion++;
-                        var clientePendiente = new Cliente($"Camión {numCamion}");
-                        clientePendiente.Llegar(horaInicio);
-                        recepcion.LlegadaCliente(horaInicio, clientePendiente);
-                        if (simulacion <= hasta)
+                        foreach (var cliente in afuera)
                         {
-                            clientes.Add(clientePendiente);
+                            if (_cancelar) break;
 
-                            if (simulacion >= desde)
-                                Invoke(columnasInstance, numCamion);
+                            recepcion.LlegadaCliente(horaInicio, cliente);
                         }
+
+                        afuera = new List<Cliente>();
                     }
 
                     var eventos = new List<Evento>
@@ -186,7 +179,6 @@ namespace TP4
                     switch (eventoActual)
                     {
                         case "Llegada":
-                            llegando++;
                             numCamion++;
                             var clienteLlegando = new Cliente($"Camión {numCamion}");
                             clienteLlegando.Llegar(relojActual);
@@ -236,10 +228,12 @@ namespace TP4
 
                         case "Cierre":
                             llegadas.Cerrar();
-                            afuera = colaRecepcion.Cantidad();
-                            promedioNoAtendidos = (promedioNoAtendidos * (dia - 1) + afuera) / dia;
+                            noAtendidos = colaRecepcion.Cantidad();
+
+                            afuera.AddRange(colaRecepcion.Clientes);
+
+                            promedioNoAtendidos = (promedioNoAtendidos * (dia - 1) + noAtendidos) / dia;
                             colaRecepcion.Vaciar();
-                            noAtendidos = afuera;
                             cierre = new Evento("Cierre", null);
                             break;
                     }

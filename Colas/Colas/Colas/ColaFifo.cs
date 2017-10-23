@@ -6,7 +6,7 @@ namespace Colas.Colas
 {
     public class ColaFifo : ICola
     {
-        private readonly List<Cliente> _clientes = new List<Cliente>();
+        public List<Cliente> Clientes = new List<Cliente>();
 
         public ColaFifo(string nombre)
         {
@@ -15,12 +15,12 @@ namespace Colas.Colas
 
         public bool Vacia()
         {
-            return _clientes.Count == 0;
+            return Clientes.Count == 0;
         }
 
         public void AgregarCliente(Cliente cliente)
         {
-            _clientes.Add(cliente);
+            Clientes.Add(cliente);
             cliente.AgregarACola(Nombre);
         }
 
@@ -29,19 +29,19 @@ namespace Colas.Colas
             if (Vacia())
                 return null;
 
-            var cliente = _clientes.First();
-            _clientes.Remove(cliente);
+            var cliente = Clientes.First();
+            Clientes.Remove(cliente);
             return cliente;
         }
 
         public int Cantidad()
         {
-            return _clientes.Count;
+            return Clientes.Count;
         }
 
         public void Vaciar()
         {
-            _clientes.Clear();
+            Clientes.Clear();
         }
 
         public string Nombre { get; protected set; }
