@@ -21,6 +21,8 @@ namespace TP4
 
         private readonly CultureInfo _culture;
 
+        private Thread _simularThread;
+
         private delegate void InicioFinDelegate(bool fin);
         private delegate void ColumnasDelegate(int numCamion);
         private delegate void FilaDelegate(DateTime relojActual, string eventoActual, Llegada llegadas,
@@ -57,13 +59,13 @@ namespace TP4
         {
             if (!FormularioValido()) return;
 
-            var simularThread = new Thread(Simular)
+            _simularThread = new Thread(Simular)
             {
                 CurrentCulture = _culture,
                 CurrentUICulture = _culture
             };
             
-            simularThread.Start();
+            _simularThread.Start();
         }
 
         private void Simular()
@@ -673,6 +675,19 @@ namespace TP4
             dg_simulaciones.GetType()
                 .GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)
                 .SetValue(dg_simulaciones, true);
+        }
+
+        private void Tp4_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_simularThread == null)
+                return;
+
+            if (_simularThread.ThreadState.Equals(ThreadState.Unstarted)
+                || _simularThread.ThreadState.Equals(ThreadState.Stopped))
+                return;
+
+            _cancelar = true;
+            e.Cancel = true;
         }
     }
 }

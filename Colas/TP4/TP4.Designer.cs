@@ -928,7 +928,7 @@
             this.Controls.Add(this.gb_llegadas);
             this.DoubleBuffered = true;
             this.Name = "Tp4";
-            this.Text = "Colas";
+            this.Text = "De Franceschi Andrea 62127 - García Majorel Álvaro 61856 - García Reyna Facundo 63583 - Oliveda Claudio 49594 - Varela Sofía 65126";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.gb_llegadas.ResumeLayout(false);
             this.gb_llegadas.PerformLayout();
@@ -948,6 +948,7 @@
             this.gb_actual.ResumeLayout(false);
             this.gb_actual.PerformLayout();
             this.ResumeLayout(false);
+            this.FormClosing += Tp4_FormClosing;
 
         }
 
