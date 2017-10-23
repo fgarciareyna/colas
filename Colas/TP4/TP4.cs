@@ -348,7 +348,7 @@ namespace TP4
                             darsena2.CantidadAtendidos,
                             atendidos,
                             noAtendidos,
-                            Math.Round(permanenciaDiaria, Decimales)
+                            DateTimeConverter.DesdeMinutos(permanenciaDiaria)
                         );
 
             foreach (var cliente in clientes)
@@ -357,7 +357,7 @@ namespace TP4
 
                 dg_simulaciones.Rows[row].Cells[$"llegada_camion_{num}"].Value = cliente.HoraLlegada.ToString("HH:mm:ss");
                 dg_simulaciones.Rows[row].Cells[$"estado_camion_{num}"].Value = cliente.Estado;
-                dg_simulaciones.Rows[row].Cells[$"permanencia_camion_{num}"].Value = Math.Round(cliente.TiempoEnSistema, Decimales);
+                dg_simulaciones.Rows[row].Cells[$"permanencia_camion_{num}"].Value = DateTimeConverter.DesdeMinutos(cliente.TiempoEnSistema);
             }
         }
 
@@ -374,13 +374,13 @@ namespace TP4
             {
                 txt_atendidos_a.Text = Math.Round(promedioAtendidos, Decimales).ToString();
                 txt_no_atendidos_a.Text = Math.Round(promedioNoAtendidos, Decimales).ToString();
-                txt_permanencia_a.Text = Math.Round(promedioPermanencia, Decimales).ToString();
+                txt_permanencia_a.Text = DateTimeConverter.DesdeMinutos(promedioPermanencia);
             }
             else
             {
                 txt_atendidos_b.Text = Math.Round(promedioAtendidos, Decimales).ToString();
                 txt_no_atendidos_b.Text = Math.Round(promedioNoAtendidos, Decimales).ToString();
-                txt_permanencia_b.Text = Math.Round(promedioPermanencia, Decimales).ToString();
+                txt_permanencia_b.Text = DateTimeConverter.DesdeMinutos(promedioPermanencia);
             }
         }
 

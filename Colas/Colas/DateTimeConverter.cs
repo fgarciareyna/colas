@@ -18,5 +18,16 @@ namespace Colas
         {
             return EnSegundos(tiempo) / 3600;
         }
+
+        public static string DesdeMinutos(decimal minutos)
+        {
+            var hh = (int) (minutos / 60);
+
+            var mm = (int) (minutos % 60);
+
+            var ss = (int) (minutos % 1 * 60);
+
+            return $"{hh}:{mm.ToString().PadLeft(2,'0')}:{ss.ToString().PadLeft(2, '0')}";
+        }
     }
 }
