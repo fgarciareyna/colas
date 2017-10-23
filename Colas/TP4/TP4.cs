@@ -293,7 +293,7 @@ namespace TP4
             columnEstado.CellTemplate = new DataGridViewTextBoxCell();
             columnEstado.Name = $"estado_camion_{numCamion}";
             columnEstado.HeaderText = $@"Estado Camión {numCamion}";
-            columnEstado.Width = 80;
+            columnEstado.Width = 120;
             columnEstado.FillWeight = 1;
             columns[1] = (columnEstado);
 
