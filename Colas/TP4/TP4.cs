@@ -19,11 +19,14 @@ namespace TP4
     {
         private const int Decimales = 2;
 
+        private readonly CultureInfo _culture;
+
         private delegate void InicioFinDelegate(bool fin);
         private delegate void ColumnasDelegate(int numCamion);
-        private delegate void FilaDelegate(DateTime relojActual, string eventoActual, Llegada llegadas, ICola colaRecepcion,
-            Servidor recepcion, ICola colaBalanza, Servidor balanza, ICola colaDarsenas, Servidor darsena1,
+        private delegate void FilaDelegate(DateTime relojActual, string eventoActual, Llegada llegadas,
+            ICola colaRecepcion, Servidor recepcion, ICola colaBalanza, Servidor balanza, ICola colaDarsenas, Servidor darsena1,
             Servidor darsena2, int atendidos, int noAtendidos, decimal permanenciaDiaria, IEnumerable<Cliente> clientes);
+        private delegate void StatusDelegate(int dia, DateTime relojActual, int simulacion);
         private delegate void ResultadosDelegate(decimal promedioAtendidos, decimal promedioNoAtendidos,
             decimal promedioPermanencia);
 
@@ -31,9 +34,9 @@ namespace TP4
 
         public Tp4()
         {
-            var culture = CultureInfo.InvariantCulture;
-            Thread.CurrentThread.CurrentCulture = culture;
-            Thread.CurrentThread.CurrentUICulture = culture;
+            _culture = CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentCulture = _culture;
+            Thread.CurrentThread.CurrentUICulture = _culture;
 
             InitializeComponent();
             DoubleBuffer();
@@ -54,7 +57,13 @@ namespace TP4
         {
             if (!FormularioValido()) return;
 
-            new Thread(Simular).Start();
+            var simularThread = new Thread(Simular)
+            {
+                CurrentCulture = _culture,
+                CurrentUICulture = _culture
+            };
+            
+            simularThread.Start();
         }
 
         private void Simular()
@@ -62,6 +71,7 @@ namespace TP4
             var inicioFinInstance = new InicioFinDelegate(InicioFin);
             var columnasInstance = new ColumnasDelegate(AgregarColumnas);
             var filaInstance = new FilaDelegate(AgregarFila);
+            var statusInstance = new StatusDelegate(ActualizarStatus);
             var resultadosInstance = new ResultadosDelegate(MostrarResultados);
 
             var recepcionA = double.Parse(txt_recepcion_a.Text);
@@ -148,11 +158,12 @@ namespace TP4
                         var clientePendiente = new Cliente($"Camión {numCamion}");
                         clientePendiente.Llegar(horaInicio);
                         recepcion.LlegadaCliente(horaInicio, clientePendiente);
-                        if (simulacion < hasta)
+                        if (simulacion <= hasta)
                         {
                             clientes.Add(clientePendiente);
 
-                            Invoke(columnasInstance, numCamion);
+                            if (simulacion >= desde)
+                                Invoke(columnasInstance, numCamion);
                         }
                     }
 
@@ -179,11 +190,12 @@ namespace TP4
                             clienteLlegando.Llegar(relojActual);
                             recepcion.LlegadaCliente(relojActual, clienteLlegando);
                             llegadas.ActualizarLlegada();
-                            if (simulacion < hasta)
+                            if (simulacion <= hasta)
                             {
                                 clientes.Add(clienteLlegando);
 
-                                Invoke(columnasInstance, numCamion);
+                                if(simulacion >= desde)
+                                    Invoke(columnasInstance, numCamion);
                             }
                             break;
 
@@ -229,6 +241,9 @@ namespace TP4
                             cierre = new Evento("Cierre", null);
                             break;
                     }
+
+                    if (simulacion % 10 == 0)
+                        Invoke(statusInstance, dia, relojActual, simulacion);
 
                     if (simulacion >= desde && simulacion <= hasta)
                     {
@@ -342,6 +357,13 @@ namespace TP4
                 dg_simulaciones.Rows[row].Cells[$"estado_camion_{num}"].Value = cliente.Estado;
                 dg_simulaciones.Rows[row].Cells[$"permanencia_camion_{num}"].Value = Math.Round(cliente.TiempoEnSistema, Decimales);
             }
+        }
+
+        private void ActualizarStatus(int dia, DateTime relojActual, int simulacion)
+        {
+            txt_dia.Text = dia.ToString();
+            txt_hora.Text = relojActual.ToString("HH:mm:ss");
+            txt_evento.Text = simulacion.ToString();
         }
 
         private void MostrarResultados(decimal promedioAtendidos, decimal promedioNoAtendidos, decimal promedioPermanencia)

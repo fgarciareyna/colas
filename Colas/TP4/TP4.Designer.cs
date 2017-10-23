@@ -96,6 +96,13 @@
             this.sin_atender = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.permanencia = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_detener = new System.Windows.Forms.Button();
+            this.gb_actual = new System.Windows.Forms.GroupBox();
+            this.txt_evento = new System.Windows.Forms.TextBox();
+            this.txt_hora = new System.Windows.Forms.TextBox();
+            this.txt_dia = new System.Windows.Forms.TextBox();
+            this.lbl_evento = new System.Windows.Forms.Label();
+            this.lbl_hora = new System.Windows.Forms.Label();
+            this.lbl_dia = new System.Windows.Forms.Label();
             this.gb_llegadas.SuspendLayout();
             this.gb_recepcion.SuspendLayout();
             this.gb_balanza.SuspendLayout();
@@ -104,6 +111,7 @@
             this.gb_estrategias.SuspendLayout();
             this.gb_cantidades.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_simulaciones)).BeginInit();
+            this.gb_actual.SuspendLayout();
             this.SuspendLayout();
             // 
             // gb_llegadas
@@ -543,7 +551,7 @@
             // btn_comparar
             // 
             this.btn_comparar.Enabled = false;
-            this.btn_comparar.Location = new System.Drawing.Point(677, 103);
+            this.btn_comparar.Location = new System.Drawing.Point(758, 103);
             this.btn_comparar.Name = "btn_comparar";
             this.btn_comparar.Size = new System.Drawing.Size(75, 23);
             this.btn_comparar.TabIndex = 10;
@@ -607,7 +615,7 @@
             this.dg_simulaciones.ShowCellToolTips = false;
             this.dg_simulaciones.ShowEditingIcon = false;
             this.dg_simulaciones.ShowRowErrors = false;
-            this.dg_simulaciones.Size = new System.Drawing.Size(735, 421);
+            this.dg_simulaciones.Size = new System.Drawing.Size(920, 421);
             this.dg_simulaciones.TabIndex = 11;
             // 
             // reloj
@@ -824,7 +832,7 @@
             // btn_detener
             // 
             this.btn_detener.Enabled = false;
-            this.btn_detener.Location = new System.Drawing.Point(758, 103);
+            this.btn_detener.Location = new System.Drawing.Point(677, 103);
             this.btn_detener.Name = "btn_detener";
             this.btn_detener.Size = new System.Drawing.Size(75, 23);
             this.btn_detener.TabIndex = 12;
@@ -832,11 +840,81 @@
             this.btn_detener.UseVisualStyleBackColor = true;
             this.btn_detener.Click += new System.EventHandler(this.btn_detener_Click);
             // 
+            // gb_actual
+            // 
+            this.gb_actual.Controls.Add(this.txt_evento);
+            this.gb_actual.Controls.Add(this.txt_hora);
+            this.gb_actual.Controls.Add(this.txt_dia);
+            this.gb_actual.Controls.Add(this.lbl_evento);
+            this.gb_actual.Controls.Add(this.lbl_hora);
+            this.gb_actual.Controls.Add(this.lbl_dia);
+            this.gb_actual.Location = new System.Drawing.Point(596, 12);
+            this.gb_actual.Name = "gb_actual";
+            this.gb_actual.Size = new System.Drawing.Size(237, 85);
+            this.gb_actual.TabIndex = 13;
+            this.gb_actual.TabStop = false;
+            this.gb_actual.Text = "Simulación actual:";
+            // 
+            // txt_evento
+            // 
+            this.txt_evento.CausesValidation = false;
+            this.txt_evento.Location = new System.Drawing.Point(142, 46);
+            this.txt_evento.Name = "txt_evento";
+            this.txt_evento.ReadOnly = true;
+            this.txt_evento.Size = new System.Drawing.Size(89, 20);
+            this.txt_evento.TabIndex = 5;
+            // 
+            // txt_hora
+            // 
+            this.txt_hora.CausesValidation = false;
+            this.txt_hora.Location = new System.Drawing.Point(52, 46);
+            this.txt_hora.Name = "txt_hora";
+            this.txt_hora.ReadOnly = true;
+            this.txt_hora.Size = new System.Drawing.Size(84, 20);
+            this.txt_hora.TabIndex = 4;
+            // 
+            // txt_dia
+            // 
+            this.txt_dia.CausesValidation = false;
+            this.txt_dia.Location = new System.Drawing.Point(9, 46);
+            this.txt_dia.Name = "txt_dia";
+            this.txt_dia.ReadOnly = true;
+            this.txt_dia.Size = new System.Drawing.Size(37, 20);
+            this.txt_dia.TabIndex = 3;
+            // 
+            // lbl_evento
+            // 
+            this.lbl_evento.AutoSize = true;
+            this.lbl_evento.Location = new System.Drawing.Point(139, 30);
+            this.lbl_evento.Name = "lbl_evento";
+            this.lbl_evento.Size = new System.Drawing.Size(44, 13);
+            this.lbl_evento.TabIndex = 2;
+            this.lbl_evento.Text = "Evento:";
+            // 
+            // lbl_hora
+            // 
+            this.lbl_hora.AutoSize = true;
+            this.lbl_hora.Location = new System.Drawing.Point(49, 30);
+            this.lbl_hora.Name = "lbl_hora";
+            this.lbl_hora.Size = new System.Drawing.Size(33, 13);
+            this.lbl_hora.TabIndex = 1;
+            this.lbl_hora.Text = "Hora:";
+            // 
+            // lbl_dia
+            // 
+            this.lbl_dia.AutoSize = true;
+            this.lbl_dia.Location = new System.Drawing.Point(6, 30);
+            this.lbl_dia.Name = "lbl_dia";
+            this.lbl_dia.Size = new System.Drawing.Size(28, 13);
+            this.lbl_dia.TabIndex = 0;
+            this.lbl_dia.Text = "Día:";
+            // 
             // Tp4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(898, 575);
+            this.ClientSize = new System.Drawing.Size(1083, 575);
+            this.Controls.Add(this.gb_actual);
             this.Controls.Add(this.btn_detener);
             this.Controls.Add(this.dg_simulaciones);
             this.Controls.Add(this.btn_comparar);
@@ -867,6 +945,8 @@
             this.gb_cantidades.ResumeLayout(false);
             this.gb_cantidades.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_simulaciones)).EndInit();
+            this.gb_actual.ResumeLayout(false);
+            this.gb_actual.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -940,6 +1020,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn sin_atender;
         private System.Windows.Forms.DataGridViewTextBoxColumn permanencia;
         private System.Windows.Forms.Button btn_detener;
+        private System.Windows.Forms.GroupBox gb_actual;
+        private System.Windows.Forms.TextBox txt_evento;
+        private System.Windows.Forms.TextBox txt_hora;
+        private System.Windows.Forms.TextBox txt_dia;
+        private System.Windows.Forms.Label lbl_evento;
+        private System.Windows.Forms.Label lbl_hora;
+        private System.Windows.Forms.Label lbl_dia;
     }
 }
 
