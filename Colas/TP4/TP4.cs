@@ -76,6 +76,8 @@ namespace TP4
             var statusInstance = new StatusDelegate(ActualizarStatus);
             var resultadosInstance = new ResultadosDelegate(MostrarResultados);
 
+            Invoke(inicioFinInstance, false);
+
             var recepcionA = double.Parse(txt_recepcion_a.Text);
             var recepcionB = double.Parse(txt_recepcion_b.Text);
             var distribucionRecepcion = new DistribucionUniforme(recepcionA, recepcionB);
@@ -113,11 +115,13 @@ namespace TP4
                 horaInicio = DateTime.Today.AddHours(5);
             }
 
+            var horaFin = DateTime.Today.AddHours(18);
+
+            var llegadas = new Llegada(distribucionLlegadas, horaInicio, horaFin);
+
             var dias = int.Parse(txt_dias.Text);
             var desde = int.Parse(txt_desde.Text);
             var hasta = int.Parse(txt_hasta.Text);
-
-            Invoke(inicioFinInstance, false);
 
             decimal promedioAtendidos = 0;
             decimal promedioNoAtendidos = 0;
@@ -137,8 +141,7 @@ namespace TP4
                 var atendidos = 0;
                 var noAtendidos = 0;
                 decimal permanenciaDiaria = 0;
-                var llegadas = new Llegada(distribucionLlegadas, horaInicio);
-                var cierre = new Evento("Cierre", DateTime.Today.AddHours(18));
+                llegadas.Abrir();
 
                 while (llegadas.Abierto()
                        || !recepcion.EstaLibre()
@@ -165,11 +168,11 @@ namespace TP4
                     var eventos = new List<Evento>
                     {
                         new Evento("Llegada", llegadas.ProximaLlegada),
+                        new Evento("Cierre", llegadas.Cierre),
                         new Evento("Fin Recepción", recepcion.ProximoFinAtencion),
                         new Evento("Fin Balanza", balanza.ProximoFinAtencion),
                         new Evento("Fin Dársena 1", darsena1.ProximoFinAtencion),
-                        new Evento("Fin Dársena 2", darsena2.ProximoFinAtencion),
-                        cierre
+                        new Evento("Fin Dársena 2", darsena2.ProximoFinAtencion)
                     };
 
                     // ReSharper disable once PossibleInvalidOperationException
@@ -227,13 +230,12 @@ namespace TP4
 
                         case "Cierre":
                             llegadas.Cerrar();
-                            noAtendidos = colaRecepcion.Cantidad();
 
+                            noAtendidos = colaRecepcion.Cantidad();
                             afuera.AddRange(colaRecepcion.Clientes);
+                            colaRecepcion.Vaciar();
 
                             promedioNoAtendidos = (promedioNoAtendidos * (dia - 1) + noAtendidos) / dia;
-                            colaRecepcion.Vaciar();
-                            cierre = new Evento("Cierre", null);
                             break;
                     }
 

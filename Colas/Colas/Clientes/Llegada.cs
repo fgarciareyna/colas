@@ -5,10 +5,20 @@ namespace Colas.Clientes
 {
     public class Llegada
     {
-        public Llegada(IDistribucion distribucion, DateTime proximaLlegada)
+        private readonly DateTime _horaInicio;
+        private readonly DateTime _horaFin;
+
+        public Llegada(IDistribucion distribucion, DateTime horaInicio, DateTime horaFin)
         {
             DistribucionLlegadas = distribucion;
-            ProximaLlegada = proximaLlegada;
+            _horaInicio = horaInicio;
+            _horaFin = horaFin;
+        }
+
+        public void Abrir()
+        {
+            ProximaLlegada = _horaInicio;
+            Cierre = _horaFin;
         }
 
         public void ActualizarLlegada()
@@ -24,6 +34,7 @@ namespace Colas.Clientes
         public void Cerrar()
         {
             ProximaLlegada = null;
+            Cierre = null;
         }
 
         public bool Abierto()
@@ -33,5 +44,6 @@ namespace Colas.Clientes
 
         public IDistribucion DistribucionLlegadas { get; protected set; }
         public DateTime? ProximaLlegada { get; protected set; }
+        public DateTime? Cierre { get; protected set; }
     }
 }
