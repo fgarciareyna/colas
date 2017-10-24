@@ -188,8 +188,7 @@ namespace TP4
                             {
                                 clientes.Add(clienteLlegando);
 
-                                if(simulacion >= desde)
-                                    Invoke(columnasInstance, numCamion);
+                                Invoke(columnasInstance, numCamion);
                             }
                             break;
 
@@ -390,7 +389,7 @@ namespace TP4
             if (!atendidosA.Equals(atendidosB))
             {
                 porcentaje = Math.Round(Math.Abs((atendidosB - atendidosA) / atendidosA * 100), Decimales);
-                masMenos = atendidosB > atendidosA ? "Más" : "Menos";
+                masMenos = atendidosB > atendidosA ? "más" : "menos";
 
                 sb.Append($"Con la estrategia B se atendieron un {porcentaje}% {masMenos} de camiones.");
             }
@@ -406,7 +405,7 @@ namespace TP4
             if (!noAtendidosA.Equals(noAtendidosB))
             {
                 porcentaje = Math.Round(Math.Abs((noAtendidosB - noAtendidosA) / noAtendidosA * 100), Decimales);
-                masMenos = noAtendidosB > noAtendidosA ? "Más" : "Menos";
+                masMenos = noAtendidosB > noAtendidosA ? "más" : "menos";
 
                 sb.Append($"Con la estrategia B quedaron afuera un {porcentaje}% {masMenos} de camiones.");
             }
@@ -416,13 +415,13 @@ namespace TP4
             }
             sb.AppendLine();
 
-            var permanenciaA = double.Parse(txt_permanencia_a.Text);
-            var permanenciaB = double.Parse(txt_permanencia_b.Text);
+            var permanenciaA = (double) DateTimeConverter.EnMinutos(txt_permanencia_a.Text);
+            var permanenciaB = (double) DateTimeConverter.EnMinutos(txt_permanencia_b.Text);
 
             if (!permanenciaA.Equals(permanenciaB))
             {
                 porcentaje = Math.Round(Math.Abs((permanenciaB - permanenciaA) / permanenciaA * 100), Decimales);
-                masMenos = permanenciaB > permanenciaA ? "Más" : "Menos";
+                masMenos = permanenciaB > permanenciaA ? "más" : "menos";
 
                 sb.Append($"Con la estrategia B los camiones permanecieron un {porcentaje}% {masMenos} de tiempo.");
             }
