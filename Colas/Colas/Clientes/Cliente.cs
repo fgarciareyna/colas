@@ -27,7 +27,7 @@ namespace Colas.Clientes
             var inicioAtencion = DateTimeConverter.EnMinutos(HoraInicioAtencion);
             var finAtencion = DateTimeConverter.EnMinutos(horaFinAtencion);
 
-            TiempoAtencion += -finAtencion - inicioAtencion;
+            TiempoAtencion += finAtencion - inicioAtencion;
         }
 
         public void AgregarACola(string nombre)

@@ -2,7 +2,6 @@
 using NumerosAleatorios.VariablesAleatorias;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -54,7 +53,6 @@ namespace TP4
             btn_simular.Enabled = true;
         }
 
-        [SuppressMessage("ReSharper", "LocalVariableHidesMember")]
         private void btn_simular_Click(object sender, EventArgs e)
         {
             if (!FormularioValido()) return;
