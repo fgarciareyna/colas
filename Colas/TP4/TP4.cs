@@ -143,7 +143,7 @@ namespace TP4
                 decimal permanenciaDiaria = 0;
                 llegadas.Abrir();
 
-                while (llegadas.Abierto()
+                while (llegadas.EstaAbierto()
                        || !recepcion.EstaLibre()
                        || !balanza.EstaLibre()
                        || !darsena1.EstaLibre()
@@ -153,7 +153,7 @@ namespace TP4
 
                     simulacion++;
 
-                    if (llegadas.Abierto() && afuera.Count > 0)
+                    if (llegadas.EstaAbierto() && afuera.Count > 0)
                     {
                         foreach (var cliente in afuera)
                         {
@@ -674,10 +674,8 @@ namespace TP4
 
         private void Tp4_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_simularThread == null)
-                return;
-
-            if (_simularThread.ThreadState.Equals(ThreadState.Unstarted)
+            if (_simularThread == null
+                || _simularThread.ThreadState.Equals(ThreadState.Unstarted)
                 || _simularThread.ThreadState.Equals(ThreadState.Stopped))
                 return;
 

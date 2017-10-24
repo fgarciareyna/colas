@@ -37,7 +37,7 @@ namespace Colas.Clientes
             Cierre = null;
         }
 
-        public bool Abierto()
+        public bool EstaAbierto()
         {
             return ProximaLlegada.HasValue;
         }
