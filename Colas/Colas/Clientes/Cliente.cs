@@ -15,7 +15,7 @@ namespace Colas.Clientes
             Estado = "Llegando";
             HoraLlegada = horaLlegada;
         }
-        
+
         public void ComenzarAtencion(DateTime horaInicioAtencion, string servidor)
         {
             HoraInicioAtencion = horaInicioAtencion;

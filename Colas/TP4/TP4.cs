@@ -99,23 +99,21 @@ namespace TP4
             var darsena2 = new Servidor(distribucionDarsenas, colaDarsenas, "Dársena 2", distribucionRecalibracion);
             
             IDistribucion distribucionLlegadas;
-            DateTime horaInicio;
+            var horaInicio = DateTime.Today.AddHours(5);
+            var horaFin = DateTime.Today.AddHours(18);
+            Llegada llegadas;
 
             if (rb_estrategia_a.Checked)
             {
                 var lambda = double.Parse(txt_llegadas_lambda.Text);
                 distribucionLlegadas = new DistribucionExponencialNegativa(lambda);
-                horaInicio = DateTime.Today.AddHours(12);
+                llegadas = new Llegada(distribucionLlegadas, DateTime.Today.AddHours(12), horaFin);
             }
             else
             {
                 distribucionLlegadas = new DistribucionUniforme(7, 8);
-                horaInicio = DateTime.Today.AddHours(5);
+                llegadas = new Llegada(distribucionLlegadas, horaInicio, horaFin);
             }
-
-            var horaFin = DateTime.Today.AddHours(18);
-
-            var llegadas = new Llegada(distribucionLlegadas, horaInicio, horaFin);
 
             var dias = int.Parse(txt_dias.Text);
             var desde = int.Parse(txt_desde.Text);
@@ -157,6 +155,7 @@ namespace TP4
                         {
                             if (_cancelar) break;
 
+                            cliente.Llegar(horaInicio);
                             recepcion.LlegadaCliente(horaInicio, cliente);
                         }
 
